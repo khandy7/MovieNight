@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "132855991688",
+    "project_id": "movie-night-41304",
+    "storage_bucket": "movie-night-41304.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:132855991688:android:d92fc02d75d5e3aadcfe3d",
+        "android_client_info": {
+          "package_name": "com.example.movie_helper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "132855991688-lonan093qj14p0tjgof26e7qubfvi6b1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.movie_helper",
+            "certificate_hash": "27b380240f884a76e560cf102a534f29493cc8d7"
+          }
+        },
+        {
+          "client_id": "132855991688-qlbthvqt50h0mk34b1pc2k37lp9p7ffh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXeiYKnhLWpaN16v1yVfz3DQ3JyCvYP6s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "132855991688-qlbthvqt50h0mk34b1pc2k37lp9p7ffh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
