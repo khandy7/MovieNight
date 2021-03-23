@@ -2,7 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/navbar.dart';
 
-
+String getError(String e) {
+  String x = '';
+  switch(e) {
+    case 'weak-password':
+      x = "The password provided is too weak.";
+      break;
+    case 'email-already-in-use':
+      x = "That email address is already in use.";
+      break;
+    case 'wrong-password':
+      x = 'Password is incorrect, please try again.';
+      break;
+    case 'too-many-requests':
+      x = "Too many sign in attempts, please wait and try again.";
+      break;
+    case 'operation-not-allowed':
+      x = "You did something wrong, idk try again.";
+      break;
+    default:
+      x = "Something went wrong, try again.";
+      break;
+  }
+  return x;
+}
 
 //BEGINNING OF LOGIN PAGE WIDGET
 class MyLoginPage extends StatefulWidget {
@@ -43,6 +66,7 @@ class _MyLoginState extends State<MyLoginPage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
     TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
@@ -58,7 +82,7 @@ class _MyLoginState extends State<MyLoginPage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text("Login or Register", style: TextStyle(fontSize: 35)),
-                    Text("Please register below if you do not have an account."),
+                    Text("Please login or register below if you do not have an account."),
                     //Displays form for email address
                     emailForm(_emailKey, emailController),
                     //Displays form for password
@@ -72,17 +96,22 @@ class _MyLoginState extends State<MyLoginPage> {
                         if (_emailKey.currentState.validate() && _passKey.currentState.validate()) {
                           String email = emailController.text;
                           String pass = passwordController.text;
-                          auth.createUserWithEmailAndPassword(email: email, password: pass);
+                          try {
+                            await auth.createUserWithEmailAndPassword(email: email, password: pass);
+                          } on FirebaseException catch(e) {
+                            String x = getError(e.code);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
+                            print(e.message);
+                          }
                           FirebaseAuth.instance
                               .authStateChanges()
                               .listen((User user) {
                             if (user == null) {
-                              print('User is currently signed out!');
                             } else {
-                              print('User is signed in!');
+                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
                             }
                           });
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
                         }
                       },
                       child: Text(
@@ -126,7 +155,7 @@ Widget emailForm(Key _emailKey, TextEditingController emailController) => Paddin
         ),),
       controller: emailController,
       validator: (value) {
-        if (value.isEmpty) {
+        if (value.isEmpty || !value.contains('@') ) {
           return 'Please enter a valid email address.';
         }
         return null;
@@ -158,8 +187,8 @@ Widget passForm(Key _passKey, TextEditingController passwordController) => Paddi
         ),),
       controller: passwordController,
       validator: (value) {
-        if (value.isEmpty) {
-          return 'Please enter a valid password.';
+        if (value.isEmpty || value.length < 7) {
+          return 'Please enter a valid password, must be at least 7 characters long.';
         }
         return null;
       },
@@ -172,17 +201,23 @@ Widget passForm(Key _passKey, TextEditingController passwordController) => Paddi
 //Button for signing in
 Widget signInButton(BuildContext context, TextEditingController emailController, TextEditingController passwordController, FirebaseAuth auth) => ElevatedButton(
       onPressed: () async {
-        auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+        try {
+          await auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
+        } on FirebaseAuthException catch(e) {
+          String x = getError(e.code);
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
+          print(e.message);
+        }
+
         FirebaseAuth.instance
             .authStateChanges()
             .listen((User user) {
           if (user == null) {
-            print('User is currently signed out!');
           } else {
-            print('User is signed in!');
+            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
           }
         });
-        Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
       },
       child: Text(
         "Sign in",

@@ -7,6 +7,7 @@ import 'package:movie_helper/friends.dart';
 import 'package:movie_helper/login.dart';
 import 'package:movie_helper/home.dart';
 import 'package:movie_helper/movies.dart';
+import 'package:movie_helper/profile.dart';
 
 class MyNavBar extends StatefulWidget {
 
@@ -53,21 +54,22 @@ class _MyNavBarState extends State<MyNavBar> {
         appBar: AppBar(
           centerTitle: true,
           title: (_selectedIndex == 0) ? Text("Home") : (_selectedIndex == 1) ? Text('Movies') :(_selectedIndex == 2) ? Text('Friends') : Text("Movie Night"),
+          leading: IconButton(
+            icon: Icon(Icons.logout, size: 40, color: Colors.white),
+            onPressed: () {
+              auth.signOut();
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyLoginPage()));
+            },
+            padding: EdgeInsets.all(1.0),
+          ),
           actions: [
             IconButton(
               icon: Icon(Icons.account_circle, size: 40, color: Colors.white),
-              onPressed: null,
-              padding: EdgeInsets.all(1.0),
-            ),
-            IconButton(
-              icon: Icon(Icons.logout, size: 40, color: Colors.white),
               onPressed: () {
-                auth.signOut();
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyLoginPage()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile()));
               },
               padding: EdgeInsets.all(1.0),
             ),
-
           ],
         ),
         body: Center(
