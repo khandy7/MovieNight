@@ -20,6 +20,9 @@ String getError(String e) {
     case 'operation-not-allowed':
       x = "You did something wrong, idk try again.";
       break;
+    case 'user-not-found':
+      x = "User could not be found, register to make an account.";
+      break;
     default:
       x = "Something went wrong, try again.";
       break;
@@ -71,6 +74,7 @@ class _MyLoginState extends State<MyLoginPage> {
   Widget build(BuildContext context) {
     TextStyle defaultStyle = TextStyle(color: Colors.grey, fontSize: 20.0);
     TextStyle linkStyle = TextStyle(color: Colors.blue);
+
     return Scaffold(
       appBar: AppBar(title: Text("Login"), centerTitle: true),
       body: Center(
@@ -99,16 +103,16 @@ class _MyLoginState extends State<MyLoginPage> {
                           try {
                             await auth.createUserWithEmailAndPassword(email: email, password: pass);
                           } on FirebaseException catch(e) {
+                            print(e.code);
                             String x = getError(e.code);
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
-                            print(e.message);
                           }
                           FirebaseAuth.instance
                               .authStateChanges()
                               .listen((User user) {
                             if (user == null) {
                             } else {
-                              ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                              ScaffoldMessenger.of(context).removeCurrentSnackBar();
                               Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
                             }
                           });
@@ -206,7 +210,7 @@ Widget signInButton(BuildContext context, TextEditingController emailController,
         } on FirebaseAuthException catch(e) {
           String x = getError(e.code);
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
-          print(e.message);
+          print(e.code);
         }
 
         FirebaseAuth.instance
@@ -214,7 +218,7 @@ Widget signInButton(BuildContext context, TextEditingController emailController,
             .listen((User user) {
           if (user == null) {
           } else {
-            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+            ScaffoldMessenger.of(context).removeCurrentSnackBar();
             Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
           }
         });

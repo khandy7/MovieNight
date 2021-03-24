@@ -36,11 +36,6 @@ class _MyNavBarState extends State<MyNavBar> {
   void initState()  {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((user) {
-      if (user == null) {
-        print("user is not signed in");
-      } else {
-        print("user signed in");
-      }
     });
   }
 
@@ -48,7 +43,8 @@ class _MyNavBarState extends State<MyNavBar> {
   Widget build(BuildContext context) {
 
 
-      final auth = FirebaseAuth.instance;
+
+    final auth = FirebaseAuth.instance;
 
       return Scaffold(
         appBar: AppBar(
