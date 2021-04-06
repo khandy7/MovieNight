@@ -10,12 +10,17 @@ import 'package:movie_helper/movies.dart';
 import 'package:movie_helper/profile.dart';
 
 class MyNavBar extends StatefulWidget {
+  const MyNavBar({Key key, this.page}) : super(key: key);
+
+  final int page;
 
   @override
   _MyNavBarState createState() => _MyNavBarState();
 }
 
 class _MyNavBarState extends State<MyNavBar> {
+
+
   int _selectedIndex = 0;
 
   static const TextStyle optionStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
@@ -37,6 +42,7 @@ class _MyNavBarState extends State<MyNavBar> {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((user) {
     });
+    _onItemTapped(widget.page);
   }
 
   @override
@@ -62,7 +68,7 @@ class _MyNavBarState extends State<MyNavBar> {
             IconButton(
               icon: Icon(Icons.account_circle, size: 40, color: Colors.white),
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: _selectedIndex,)));
               },
               padding: EdgeInsets.all(1.0),
             ),

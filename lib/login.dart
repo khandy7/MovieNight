@@ -1,6 +1,11 @@
+import 'dart:collection';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/navbar.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+var signin = true;
 
 String getError(String e) {
   String x = '';
@@ -39,8 +44,14 @@ class MyLoginPage extends StatefulWidget {
 }
 
 class _MyLoginState extends State<MyLoginPage> {
+
+  final db = FirebaseFirestore.instance;
+
+  var check = true;
+
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
   final auth = FirebaseAuth.instance;
 
   final _emailKey = GlobalKey<FormState>();
@@ -102,18 +113,35 @@ class _MyLoginState extends State<MyLoginPage> {
                           String pass = passwordController.text;
                           try {
                             await auth.createUserWithEmailAndPassword(email: email, password: pass);
+                            check = true;
+                            signin = false;
                           } on FirebaseException catch(e) {
                             print(e.code);
+                            signin = true;
+                            check = false;
                             String x = getError(e.code);
+                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
                           }
                           FirebaseAuth.instance
                               .authStateChanges()
                               .listen((User user) {
                             if (user == null) {
-                            } else {
+                            } else if (check != false && signin == false) {
+                              db.collection("users").doc(auth.currentUser.uid).set({
+                                "email" : auth.currentUser.email,
+                                "uid" : auth.currentUser.uid,
+                                "name" : null,
+                                "favMovie" : null,
+                                "favGenre" : null,
+                                "bio" : null,
+                                "friends" : [],
+                                "friend_count": 0,
+                              },SetOptions(merge: true)).then((_) {
+                                print("Successfully created user doc!");
+                              });
                               ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
+                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar(page: 0,)));
                             }
                           });
                         }
@@ -206,20 +234,21 @@ Widget passForm(Key _passKey, TextEditingController passwordController) => Paddi
 Widget signInButton(BuildContext context, TextEditingController emailController, TextEditingController passwordController, FirebaseAuth auth) => ElevatedButton(
       onPressed: () async {
         try {
+          signin = true;
           await auth.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text);
         } on FirebaseAuthException catch(e) {
           String x = getError(e.code);
+          ScaffoldMessenger.of(context).removeCurrentSnackBar();
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(x), duration: Duration(days: 1), backgroundColor: Colors.red));
           print(e.code);
         }
-
         FirebaseAuth.instance
             .authStateChanges()
             .listen((User user) {
           if (user == null) {
           } else {
             ScaffoldMessenger.of(context).removeCurrentSnackBar();
-            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar()));
+            Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar(page: 0,)));
           }
         });
       },

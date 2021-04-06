@@ -7,12 +7,16 @@ INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManif
 MERGED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManifest.xml:1:1-47:12
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:2:1-26:12
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:17:1-83:12
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c68c629f31f51748b9746c4ee8bfda39/play-services-auth-api-phone-17.4.0/AndroidManifest.xml:2:1-7:12
 MERGED from [com.google.android.gms:play-services-safetynet:17.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/348e0fd87eb41bffccaba8ef553c83e6/play-services-safetynet-17.0.0/AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/e1c6b288864b7d904a9c2571886e3f2a/firebase-auth-interop-19.0.0/AndroidManifest.xml:2:1-10:12
+MERGED from [com.google.firebase:firebase-database-collection:17.0.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/204985af97685d6de98236b6a83a3c61/firebase-database-collection-17.0.1/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-base:17.1.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/97461efba6c5e9e0983cc52e8129f2d5/play-services-base-17.1.0/AndroidManifest.xml:17:1-29:12
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:17:1-36:12
 MERGED from [com.google.firebase:firebase-installations:16.3.5] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/e621b86a65d937145bd19c8efcb92faf/firebase-installations-16.3.5/AndroidManifest.xml:2:1-24:12
@@ -46,6 +50,8 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/kyle
 MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/29c9236d8556e66c150b1cba2401ead9/lifecycle-viewmodel-2.1.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b19955ce5eee2f53f5d89f62699be6dc/documentfile-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.print:print:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/658d29ebd3d5fbfe571528f50a047e26/print-1.0.0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8d507950016cad98873b4383e6c1beaf/protolite-well-known-types-17.1.1/AndroidManifest.xml:2:1-11:12
+MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:2:1-13:12
 INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml:1:1-7:12
@@ -67,10 +73,14 @@ application
 ADDED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManifest.xml:8:5-46:19
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:16:5-24:19
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:16:5-24:19
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:26:5-81:19
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:26:5-81:19
 MERGED from [com.google.android.gms:play-services-safetynet:17.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/348e0fd87eb41bffccaba8ef553c83e6/play-services-safetynet-17.0.0/AndroidManifest.xml:22:5-20
@@ -165,10 +175,16 @@ MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_aut
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:20:5-43
+MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:7:5-9:41
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:21:5-44
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:21:5-44
 MERGED from [com.google.android.gms:play-services-auth-api-phone:17.4.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c68c629f31f51748b9746c4ee8bfda39/play-services-auth-api-phone-17.4.0/AndroidManifest.xml:5:5-44
@@ -177,6 +193,8 @@ MERGED from [com.google.android.gms:play-services-safetynet:17.0.0] /Users/kyleh
 MERGED from [com.google.android.gms:play-services-safetynet:17.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/348e0fd87eb41bffccaba8ef553c83e6/play-services-safetynet-17.0.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/e1c6b288864b7d904a9c2571886e3f2a/firebase-auth-interop-19.0.0/AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/e1c6b288864b7d904a9c2571886e3f2a/firebase-auth-interop-19.0.0/AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-database-collection:17.0.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/204985af97685d6de98236b6a83a3c61/firebase-database-collection-17.0.1/AndroidManifest.xml:5:5-7:41
+MERGED from [com.google.firebase:firebase-database-collection:17.0.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/204985af97685d6de98236b6a83a3c61/firebase-database-collection-17.0.1/AndroidManifest.xml:5:5-7:41
 MERGED from [com.google.android.gms:play-services-base:17.1.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/97461efba6c5e9e0983cc52e8129f2d5/play-services-base-17.1.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:17.1.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/97461efba6c5e9e0983cc52e8129f2d5/play-services-base-17.1.0/AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:20:5-44
@@ -243,6 +261,10 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/kylehandy/.gradle/
 MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b19955ce5eee2f53f5d89f62699be6dc/documentfile-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/658d29ebd3d5fbfe571528f50a047e26/print-1.0.0/AndroidManifest.xml:20:5-44
 MERGED from [androidx.print:print:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/658d29ebd3d5fbfe571528f50a047e26/print-1.0.0/AndroidManifest.xml:20:5-44
+MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8d507950016cad98873b4383e6c1beaf/protolite-well-known-types-17.1.1/AndroidManifest.xml:7:5-9:41
+MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8d507950016cad98873b4383e6c1beaf/protolite-well-known-types-17.1.1/AndroidManifest.xml:7:5-9:41
+MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:7:5-9:41
+MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:7:5-9:41
 INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml
 INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
@@ -253,6 +275,8 @@ INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidMani
 		INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml
 uses-permission#android.permission.INTERNET
 ADDED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml:6:5-66
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:14:5-67
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:14:5-67
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:23:5-67
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:22:5-67
@@ -269,8 +293,12 @@ MERGED from [com.google.android.gms:play-services-measurement-sdk-api:18.0.2] /U
 		ADDED from /Users/kylehandy/CSCI567/Project/android/app/src/debug/AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
 ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
 MERGED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:17:9-23:19
+MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:17:9-23:19
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:74:9-80:19
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:74:9-80:19
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:27:9-33:19
@@ -280,7 +308,7 @@ MERGED from [com.google.firebase:firebase-installations:16.3.5] /Users/kylehandy
 MERGED from [com.google.firebase:firebase-common:19.5.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/82709d9b440fbbcad29852b6aea1cf11/jetified-firebase-common-19.5.0/AndroidManifest.xml:33:9-46:19
 MERGED from [com.google.firebase:firebase-common:19.5.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/82709d9b440fbbcad29852b6aea1cf11/jetified-firebase-common-19.5.0/AndroidManifest.xml:33:9-46:19
 	android:exported
-		ADDED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:76:13-37
+		ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:19:13-37
 	tools:targetApi
 		ADDED from [com.google.firebase:firebase-common:19.5.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/82709d9b440fbbcad29852b6aea1cf11/jetified-firebase-common-19.5.0/AndroidManifest.xml:37:13-32
 	android:directBootAware
@@ -293,6 +321,12 @@ ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth
 		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
+ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
 ADDED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 	android:value
@@ -300,7 +334,9 @@ ADDED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core
 	android:name
 		ADDED from [:firebase_core] /Users/kylehandy/CSCI567/Project/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
 uses-permission#android.permission.ACCESS_NETWORK_STATE
-ADDED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:24:5-79
+ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:13:5-79
+MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:24:5-79
+MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:23:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/2a1d642a571731beebc925a7dbea79fd/play-services-measurement-api-18.0.2/AndroidManifest.xml:23:5-79
 MERGED from [com.google.firebase:firebase-installations:16.3.5] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/e621b86a65d937145bd19c8efcb92faf/firebase-installations-16.3.5/AndroidManifest.xml:10:5-79
@@ -311,8 +347,16 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:18.0.2] /User
 MERGED from [com.google.android.gms:play-services-measurement-impl:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/178d21e55dcd9e2722f4454aab156514/play-services-measurement-impl-18.0.2/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/51a0bba0ccdfd068b33aa354c7033d9b/play-services-measurement-sdk-api-18.0.2/AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/51a0bba0ccdfd068b33aa354c7033d9b/play-services-measurement-sdk-api-18.0.2/AndroidManifest.xml:24:5-79
+MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:11:5-79
+MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:11:5-79
 	android:name
-		ADDED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:24:22-76
+		ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:13:22-76
+meta-data#com.google.firebase.components:com.google.firebase.firestore.FirestoreRegistrar
+ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:20:13-22:85
+	android:value
+		ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:22:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:21:17-111
 activity#com.google.firebase.auth.internal.GenericIdpActivity
 ADDED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:27:9-44:20
 	android:excludeFromRecents

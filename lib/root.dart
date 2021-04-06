@@ -4,7 +4,6 @@ import 'package:movie_helper/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/loading_screen.dart';
 
-
 class MyRoot extends StatefulWidget {
   @override
   _MyRootState createState() => _MyRootState();
@@ -46,7 +45,7 @@ void initState() {
         val = MyLoadingScreen();
         break;
       case 'success':
-        val = MyNavBar();
+        val = MyNavBar(page: 0,);
         break;
       case 'error':
         val = MyLoginPage();
