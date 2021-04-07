@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movie_helper/addFriend.dart';
+import 'package:flutter/gestures.dart';
+import 'package:movie_helper/viewFriend.dart';
 
 //BEGINNING OF FRIENDS PAGE WIDGET
 class MyFriendsPage extends StatefulWidget {
@@ -70,7 +72,39 @@ class _MyFriendsState extends State<MyFriendsPage> {
                   child: Text("Add Friend", style: TextStyle(color: Colors.white),),
                 ),
             ),
-            done == false ? CircularProgressIndicator() : Text(friends[0]),
+            Expanded(
+                child: SizedBox(
+                  height: 200.0,
+                  child: done == false ? CircularProgressIndicator() : CustomScrollView(
+                    slivers: <Widget>[
+                      SliverGrid(
+                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                          maxCrossAxisExtent: 200.0,
+                          mainAxisSpacing: 15.0,
+                          crossAxisSpacing: 10.0,
+                          childAspectRatio: 4.0,
+                        ),
+                        delegate: SliverChildBuilderDelegate(
+                              (BuildContext context, int index) {
+                            return Container(
+                              alignment: Alignment.center,
+                              color: Colors.white,
+                              child: GestureDetector(
+                                child: Text(friends[index]),
+                                onTap: () {
+                                  //put route to view friends profile
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewFriend(friend_email: friends[index],)));
+                                },
+                              ),
+                            );
+                          },
+                          childCount: friend_count,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ),
           ],
         ),
       ),

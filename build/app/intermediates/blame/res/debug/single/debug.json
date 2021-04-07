@@ -144,6 +144,10 @@
         "source": "/Users/kylehandy/.gradle/caches/transforms-2/files-2.1/3e26ef26d15f163a2f1a31a2130a0254/core-1.1.0/res/drawable-hdpi-v4/notify_panel_notification_icon_bg.png"
     },
     {
+        "merged": "/Users/kylehandy/CSCI567/Project/build/app/intermediates/res/merged/debug/xml_flutter_image_picker_file_paths.xml.flat",
+        "source": "/Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/packaged_res/debug/xml/flutter_image_picker_file_paths.xml"
+    },
+    {
         "merged": "/Users/kylehandy/CSCI567/Project/build/app/intermediates/res/merged/debug/drawable-hdpi-v4_notification_bg_normal.9.png.flat",
         "source": "/Users/kylehandy/.gradle/caches/transforms-2/files-2.1/3e26ef26d15f163a2f1a31a2130a0254/core-1.1.0/res/drawable-hdpi-v4/notification_bg_normal.9.png"
     },

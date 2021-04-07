@@ -78,7 +78,7 @@ class _DailyMovieState extends State<DailyMovie> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("MOVIE OF THE DAY", style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),),
+            Text("MOVIE OF THE DAY", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
           ],
         ),
         MovieOfDay(),
@@ -119,18 +119,16 @@ class MovieOfDay extends StatefulWidget {
 class _MovieOfDayState extends State<MovieOfDay> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.all(16.0),
-      child: Column(
+    return Column(
         children: [
-          Image.network('https://scitechdaily.com/images/Lunar-Reconnaissance-Orbiter-Moon-scaled.jpg'),
+          Image.network('https://scitechdaily.com/images/Lunar-Reconnaissance-Orbiter-Moon-scaled.jpg', scale: .5,),
           Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(8.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                Text("Movie Title", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                Text("Movie Title", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
               ],
             ),
         ),
@@ -189,7 +187,6 @@ class _MovieOfDayState extends State<MovieOfDay> {
             ],
           ),
         ],
-      ),
     );
   }
 }

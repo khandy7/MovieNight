@@ -137,6 +137,7 @@ class _MyLoginState extends State<MyLoginPage> {
                                 "bio" : null,
                                 "friends" : [],
                                 "friend_count": 0,
+                                "prof_pic" : null,
                               },SetOptions(merge: true)).then((_) {
                                 print("Successfully created user doc!");
                               });

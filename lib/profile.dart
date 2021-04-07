@@ -27,6 +27,7 @@ class _MyProfileState extends State<MyProfile> {
   String favMovie;
   String favGenre;
   bool done = false;
+  String prof_pic = null;
 
   @override
   void initState() {
@@ -45,6 +46,7 @@ class _MyProfileState extends State<MyProfile> {
               bio = value['bio'];
               favGenre = value['favGenre'];
               favMovie = value['favMovie'];
+              prof_pic = value['prof_pic'];
               done = true;
             });
           });
@@ -71,7 +73,7 @@ class _MyProfileState extends State<MyProfile> {
         actions: [
           IconButton(
               onPressed: () {
-                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfileEdit()));
+                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfileEdit(retPage: widget.retPage,)));
               },
               icon: Icon(Icons.edit_outlined, size: 40, color: Colors.white)
           )
@@ -88,7 +90,7 @@ class _MyProfileState extends State<MyProfile> {
                   CircleAvatar(
                     backgroundColor: Colors.black,
                     radius: 120.0,
-                    backgroundImage: NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3tP7TGcBswRZaVUObsbuxPr6lotRCP1FlIQ&usqp=CAU"),
+                    backgroundImage: prof_pic == null ? NetworkImage("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3tP7TGcBswRZaVUObsbuxPr6lotRCP1FlIQ&usqp=CAU") :  NetworkImage(prof_pic),
                   ),
                 ],
               ),

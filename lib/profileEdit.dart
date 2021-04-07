@@ -1,15 +1,72 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
+import 'dart:io';
 import 'package:movie_helper/profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
 
 
 class MyProfileEdit extends StatefulWidget {
+  const MyProfileEdit({Key key, this.retPage}) : super(key: key);
+
+  final int retPage;
+
   @override
   _MyProfileEditState createState() => _MyProfileEditState();
 }
 
 class _MyProfileEditState extends State<MyProfileEdit> {
+
+  Future getImage(bool gallery) async {
+    ImagePicker picker = ImagePicker();
+    PickedFile pickedFile;
+    // Let user select photo from gallery
+    if(gallery) {
+      pickedFile = await picker.getImage(
+        source: ImageSource.gallery,);
+    }
+    // Otherwise open camera to get new photo
+    else{
+      pickedFile = await picker.getImage(
+        source: ImageSource.camera,);
+    }
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+        //_image = File(pickedFile.path); // Use if you only need a single picture
+      } else {
+        _image = null;
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future<void> saveImages(File image, DocumentReference ref) async {
+      String imageURL = await uploadFile(image).then((value) {
+        ref.update({"prof_pic": value});
+        return value;
+      });
+      //ref.update({"prof_pic": imageURL});
+  }
+
+  Future<String> uploadFile(File _image) async {
+    firebase_storage.Reference storageReference = firebase_storage.FirebaseStorage.instance.ref('profile_pics/${basename(_image.path)}');
+    firebase_storage.UploadTask uploadTask = storageReference.putFile(_image);
+    await uploadTask.whenComplete(() =>
+        print("File uploaded")
+    );
+    String returnURL;
+    await storageReference.getDownloadURL().then((fileURL) {
+      returnURL =  fileURL;
+    });
+    return returnURL;
+  }
+
+
 
   final _movieKey = GlobalKey<FormState>();
   final _bioKey = GlobalKey<FormState>();
@@ -20,9 +77,17 @@ class _MyProfileEditState extends State<MyProfileEdit> {
   final movieController = TextEditingController();
   final bioController = TextEditingController();
   final genreController = TextEditingController();
+  String prof_pic = null;
+
+  File _image;
 
   var email;
   var uid;
+
+  firebase_storage.UploadTask uploadTask;
+  firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance.ref('profile_pics');
+
+  DocumentReference sightingRef;
 
   final db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -37,10 +102,19 @@ class _MyProfileEditState extends State<MyProfileEdit> {
           setState(() {
             email = auth.currentUser.email.toString();
             uid = auth.currentUser.uid.toString();
+            sightingRef = FirebaseFirestore.instance.collection("users").doc(uid);
+          });
+          db.collection('users').doc(uid).get().then((value) {
+            setState(() {
+              prof_pic = value['prof_pic'];
+            });
           });
         }
       }
     });
+
+    //reference to specific users documeent in db
+
     nameController.addListener(() {
       final text = nameController.text;
       nameController.value = nameController.value.copyWith(
@@ -89,7 +163,7 @@ class _MyProfileEditState extends State<MyProfileEdit> {
           icon: IconButton(
             icon: Icon(Icons.arrow_back, size: 40, color: Colors.white,),
             onPressed: () {
-              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile()));
+              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)));
             },
             padding: EdgeInsets.all(1.0),
           ),
@@ -99,6 +173,20 @@ class _MyProfileEditState extends State<MyProfileEdit> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+              Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Row(
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      //after this _image holds the users picked image
+                      getImage(true);
+                  },
+                    child: Text("Choose photo from phone"),
+                  ),
+                ],
+              ),
+            ),
             //Put several forms here for things like name, fav movie, short bio
             Text("Enter your full name"),
             nameForm(_nameKey, nameController),
@@ -109,7 +197,16 @@ class _MyProfileEditState extends State<MyProfileEdit> {
             Text("Enter a short bio about yourself"),
             bioForm(_bioKey, bioController),
             ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
+                  if (_image != null) {
+                    if (prof_pic != null) {
+                      //delete current photo from db then save next photo
+                      firebase_storage.Reference n = ref.storage.refFromURL(prof_pic);
+                      ref.child(n.fullPath.substring(13)).delete();
+                    }
+                    await saveImages(_image, sightingRef).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)))
+                    );
+                  }
                   if (nameController.text != "") {
                     db.collection('users').doc(auth.currentUser.uid).set({
                       "name" : nameController.text,
@@ -138,17 +235,19 @@ class _MyProfileEditState extends State<MyProfileEdit> {
                     print("Successfully updated fav movie");
                     });
                   }
-                  Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile()));
+                  if (_image == null) {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)));
+                  }
                 },
                 child: Text("Save"),
             ),
+            Text("When saving a photo, it may take a few seconds after pressing save to return to the previous screen.")
           ],
         ),
       ),
     );
   }
 }
-
 
 Widget nameForm(Key _nameKey, TextEditingController nameController) => Padding(
     padding: EdgeInsets.all(16.0),
@@ -241,3 +340,4 @@ Widget genreForm(Key _genreKey, TextEditingController genreController) => Paddin
     ),
   ),
 );
+
