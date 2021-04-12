@@ -128,6 +128,7 @@ class _MyLoginState extends State<MyLoginPage> {
                               .listen((User user) {
                             if (user == null) {
                             } else if (check != false && signin == false) {
+                              Timestamp t = Timestamp.now();
                               db.collection("users").doc(auth.currentUser.uid).set({
                                 "email" : auth.currentUser.email,
                                 "uid" : auth.currentUser.uid,
@@ -138,11 +139,15 @@ class _MyLoginState extends State<MyLoginPage> {
                                 "friends" : [],
                                 "friend_count": 0,
                                 "prof_pic" : null,
+                                "lastLogin" : t,
+                                "trendingIndex" : 0,
+                                "liked" : [],
+                                "disliked" : [],
                               },SetOptions(merge: true)).then((_) {
                                 print("Successfully created user doc!");
+                                ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar(page: 0,)));
                               });
-                              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                              Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar(page: 0,)));
                             }
                           });
                         }
