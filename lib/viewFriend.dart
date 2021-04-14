@@ -26,6 +26,8 @@ class _viewFriendState extends State<viewFriend> {
   String favGenre;
   String prof_pic;
   List lst;
+  int liked = 0;
+  int disliked = 0;
   int count;
   bool done = false;
 
@@ -48,6 +50,8 @@ class _viewFriendState extends State<viewFriend> {
           favMovie = value['favMovie'];
           email = value['email'];
           prof_pic = value['prof_pic'];
+          liked = value['liked'].length;
+          disliked = value['disliked'].length;
           done = true;
         });
       });
@@ -94,11 +98,11 @@ class _viewFriendState extends State<viewFriend> {
                 ),
                 Padding(
                   padding: EdgeInsets.all(6),
-                  child: Text("Liked Movies: 0"),
+                  child: Text("Liked Movies: $liked"),
                 ),
                 Padding(
                   padding: EdgeInsets.all(6),
-                  child: Text("Disliked Movies: 0"),
+                  child: Text("Disliked Movies: $disliked"),
                 ),
               ],
 

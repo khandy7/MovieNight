@@ -1,10 +1,12 @@
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movie_helper/models/movieModel.dart';
 import 'package:dio/dio.dart';
-
+import 'package:movie_helper/viewMovie.dart';
+import 'package:movie_helper/loading_screen.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -99,16 +101,177 @@ class MovieList extends StatefulWidget {
 
 class _MovieListState extends State<MovieList> {
 
+  String email, uid;
+  List<dynamic> liked;
+  List<dynamic> disliked;
+  List<dynamic> combo;
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  Future<List<Movie>> movies;
+
+  // g[i] = snapshot.data.genre_list[snapshot.data.genre[i]];
+
+  Future<List<Movie>> getMovies(List<dynamic> movies, String genre, String list) async {
+    setState(() {
+      done = false;
+    });
+    List<Movie> newMovies = [];
+    for (int i = movies.length-1; i >= 0; i--) {
+      final response = await dio.get(oneMovie + movies[i].toString() + apiKey);
+      if (response.statusCode == 200) {
+        Movie m = Movie.fromJsonSingle(response.data);
+        if (list == "Liked") {
+          if (!liked.contains(m.id)) {
+            continue;
+          }
+        } else {
+          if (!disliked.contains(m.id)) {
+            continue;
+          }
+        }
+        for (int i = 0; i < m.genre.length; i++) {
+          if (genre == "Any" || m.genre_list[m.genre[i]] == genre) {
+            newMovies.add(m);
+            break;
+          }
+        }
+      }
+    }
+    setState(() {
+      done = true;
+    });
+    return newMovies;
+  }
+
+
+  String picBase = "https://image.tmdb.org/t/p/w500";
+
+  //for individual movie, append id between oneMovie and apiKey
+  String oneMovie = "https://api.themoviedb.org/3/movie/";
+
+  String watchProviders = "/watch/providers?api_key=211ff81d2853a542be703d3104384047";
+
+  String apiKey = "?api_key=211ff81d2853a542be703d3104384047";
+
+  bool done = false;
+
+  String genredropdownvalue = "Any";
+  String listdropdownvalue = "Liked";
+
+  var dio = Dio();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseAuth.instance.authStateChanges().listen((user) {
+      if (user == null) {
+      } else {
+        if (mounted) {
+          setState(() {
+            email = auth.currentUser.email.toString();
+            uid = auth.currentUser.uid.toString();
+          });
+          db.collection('users').doc(uid).get().then((value) {
+            setState(() {
+              liked = value['liked'];
+              disliked = value['disliked'];
+              combo = liked + disliked;
+              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+            });
+          });
+        }
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text('LIST OF LIKED MOVIES GOES HERE'),
-        ],
-      ),
+    return FutureBuilder(
+        future: movies,
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Liked/Disliked Movies", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                  //Put downdowns here
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: DropdownButton<String>(
+                          value: genredropdownvalue,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: Container(height: 2, color: Colors.black54,),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              genredropdownvalue = newValue;
+                              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                            });
+                          },
+                          items: <String>["Any","Action", "Adventure", "Animation",
+                            "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
+                            "History", "Horror", "Music", "Mystery", "Romance", "Science Fiction",
+                            "TV Movie", "Thriller", "War", "Western"].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child:                       DropdownButton<String>(
+                          value: listdropdownvalue,
+                          icon: const Icon(Icons.arrow_downward),
+                          iconSize: 24,
+                          elevation: 16,
+                          style: const TextStyle(color: Colors.black),
+                          underline: Container(height: 2, color: Colors.black54,),
+                          onChanged: (String newValue) {
+                            setState(() {
+                              listdropdownvalue = newValue;
+                              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                            });
+                          },
+                          items: <String>["Liked", "Disliked"].map<DropdownMenuItem<String>>((String value) {
+                            return DropdownMenuItem<String>(
+                              value: value,
+                              child: Text(value),
+                            );
+                          }).toList(),
+                        ),
+                      ),
+                    ],
+                  ),
+                  done == false ? CircularProgressIndicator() : snapshot.data.length == 0 ? noMovies() : Expanded(child: ListView.builder(
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        final movie = snapshot.data[index];
+                        return RichText(text: TextSpan(text: movie.name, style: TextStyle(fontSize: 20, color: Colors.black),recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewMovie(movie: movie)));
+                            }
+                          )
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            );
+          } else if (snapshot.hasError) {
+            return Text("Something went wrong, try again later");
+          } else {
+            return MyLoadingScreen();
+          }
+        }
     );
   }
 }
@@ -134,6 +297,10 @@ class _MovieOfDayState extends State<MovieOfDay> {
   Future<Movie> movie;
 
   String picBase = "https://image.tmdb.org/t/p/w500";
+
+  String oneMovie = "https://api.themoviedb.org/3/movie/";
+
+  String apiKey = "?api_key=211ff81d2853a542be703d3104384047";
 
   String trending = "https://api.themoviedb.org/3/trending/movie/day?api_key=211ff81d2853a542be703d3104384047";
 
@@ -162,6 +329,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
   }
 
   Future<Movie> fetchTrending() async {
+    bool done = false;
     int id;
     final response = await dio.get(trending);
     if (response.statusCode == 200) {
@@ -178,6 +346,11 @@ class _MovieOfDayState extends State<MovieOfDay> {
       }
 
       //get id of next movie to see if user has already seen it
+
+      if (index == 20) {
+        throw Exception("Failed to load movie");
+      }
+
       id = response.data['results'][index]['id'];
 
       while (checkIfSeen(id)) {
@@ -188,12 +361,15 @@ class _MovieOfDayState extends State<MovieOfDay> {
             index += 1;
           });
         }
+        db.collection('users').doc(uid).update({
+          'trendingIndex' : index,
+        });
+
+        if (index == 20) {
+          throw Exception("Failed to load movie");
+        }
         id = response.data['results'][index]['id'];
       }
-      db.collection('users').doc(uid).update({
-        'trendingIndex' : index,
-      });
-
       return Movie.fromJson(response.data['results'][index]);
     } else {
 
@@ -338,5 +514,16 @@ class _MovieOfDayState extends State<MovieOfDay> {
         }
     );
   }
+}
+
+
+Widget noMovies() {
+  return Expanded(child: ListView.builder(
+    itemCount: 1,
+    itemBuilder: (context, index) {
+      return Text("None of your Movies match these conditions, try again");
+    },
+  ),
+  );
 }
 

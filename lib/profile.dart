@@ -26,8 +26,12 @@ class _MyProfileState extends State<MyProfile> {
   String name;
   String favMovie;
   String favGenre;
+  int friend_count;
   bool done = false;
+  int liked;
+  int disliked;
   String prof_pic = null;
+  String friends;
 
   @override
   void initState() {
@@ -47,6 +51,10 @@ class _MyProfileState extends State<MyProfile> {
               favGenre = value['favGenre'];
               favMovie = value['favMovie'];
               prof_pic = value['prof_pic'];
+              liked = value['liked'].length;
+              disliked = value['disliked'].length;
+              friend_count = value['friends'].length;
+              friends = friend_count.toString();
               done = true;
             });
           });
@@ -57,6 +65,7 @@ class _MyProfileState extends State<MyProfile> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Profile'),
@@ -108,15 +117,15 @@ class _MyProfileState extends State<MyProfile> {
               children: [
                 Padding(
                     padding: EdgeInsets.all(6),
-                    child: Text("Friends: 0"),
+                    child: friend_count == null ? CircularProgressIndicator() : Text("Friends: $friends"),
                 ),
                 Padding(
                   padding: EdgeInsets.all(6),
-                  child: Text("Liked Movies: 0"),
+                  child: Text("Liked Movies: $liked"),
                 ),
                 Padding(
                   padding: EdgeInsets.all(6),
-                  child: Text("Disliked Movies: 0"),
+                  child: Text("Disliked Movies: $disliked"),
                 ),
               ],
 
