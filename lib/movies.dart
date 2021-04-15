@@ -40,6 +40,8 @@ class _MyMovieState extends State<MyMoviePage> {
   int upcomingPage = 1;
   int upcomingIndex = 0;
 
+  String picBase = "https://image.tmdb.org/t/p/w500";
+
   String genredropdownvalue = "Any";
   String listdropdownvalue = "Popular";
 
@@ -57,18 +59,29 @@ class _MyMovieState extends State<MyMoviePage> {
   //WORKING HERE LAST, NOT SURE IF IT WORKS FULLY
   Future<Movie> getMovie(String genre, String list) async {
     if (list == "Popular") {
+      if (popularIndex > 19) {
+        setState(() {
+          popularIndex = 0;
+          popularPage += 1;
+        });
+      }
       var response = await dio.get(popular + popularPage.toString());
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][popularIndex]['id'];
       while (checkIfSeen(id)) {
-        print("seeen it");
         setState(() {
           popularIndex++;
         });
+        if (popularIndex > 19) {
+          setState(() {
+            popularIndex = 0;
+            popularPage += 1;
+          });
+          response = await dio.get(popular + popularPage.toString());
+        }
         id = response.data['results'][popularIndex]['id'];
       }
-
       if (popularIndex > 19) {
         setState(() {
           popularIndex = 0;
@@ -76,18 +89,135 @@ class _MyMovieState extends State<MyMoviePage> {
         });
         response = await dio.get(popular + popularPage.toString());
       }
-
       return Movie.fromJson(response.data['results'][popularIndex]);
 
     } else if (list == "Top Rated") {
+      if (topRatedIndex > 19) {
+        setState(() {
+          topRatedIndex = 0;
+          topRatedPage += 1;
+        });
+      }
+      var response = await dio.get(topRated + topRatedPage.toString());
+      //in here check if they have seen the movie
+      //if they have, check if index is 19, if so increment page and reset index
+      int id = response.data['results'][topRatedIndex]['id'];
+      while (checkIfSeen(id)) {
+        setState(() {
+          topRatedIndex++;
+        });
+        if (topRatedIndex > 19) {
+          setState(() {
+            topRatedIndex = 0;
+            topRatedPage += 1;
+          });
+          response = await dio.get(topRated + topRatedPage.toString());
+        }
+        id = response.data['results'][topRatedIndex]['id'];
+      }
+      if (topRatedIndex > 19) {
+        setState(() {
+          topRatedIndex = 0;
+          topRatedPage += 1;
+        });
+        response = await dio.get(topRated + topRatedPage.toString());
+      }
+      return Movie.fromJson(response.data['results'][topRatedIndex]);
 
     } else if (list == "Upcoming") {
+      if (upcomingIndex > 19) {
+        setState(() {
+          upcomingIndex = 0;
+          upcomingPage += 1;
+        });
+      }
+      var response = await dio.get(upcoming + upcomingPage.toString());
+      //in here check if they have seen the movie
+      //if they have, check if index is 19, if so increment page and reset index
+      int id = response.data['results'][upcomingIndex]['id'];
+      while (checkIfSeen(id)) {
+        setState(() {
+          upcomingIndex++;
+        });
+        if (upcomingIndex > 19) {
+          setState(() {
+            upcomingIndex = 0;
+            upcomingPage += 1;
+          });
+          response = await dio.get(upcoming + upcomingPage.toString());
+        }
+        id = response.data['results'][upcomingIndex]['id'];
+      }
+      if (upcomingIndex > 19) {
+        setState(() {
+          upcomingIndex = 0;
+          upcomingPage += 1;
+        });
+        response = await dio.get(upcoming + upcomingPage.toString());
+      }
+      return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
+      print(nowPlayingIndex);
+      if (nowPlayingIndex > 19) {
+        setState(() {
+          nowPlayingIndex = 0;
+          nowPlayingPage += 1;
+        });
+      }
+      var response = await dio.get(nowPlaying + nowPlayingPage.toString());
+      //in here check if they have seen the movie
+      //if they have, check if index is 19, if so increment page and reset index
+      int id = response.data['results'][nowPlayingIndex]['id'];
+      while (checkIfSeen(id)) {
+        setState(() {
+          nowPlayingIndex++;
+        });
+        if (nowPlayingIndex > 19) {
+          setState(() {
+            nowPlayingIndex = 0;
+            nowPlayingPage += 1;
+          });
+          response = await dio.get(nowPlaying + nowPlayingPage.toString());
+        }
+        id = response.data['results'][nowPlayingIndex]['id'];
+      }
+      if (nowPlayingIndex > 19) {
+        setState(() {
+          nowPlayingIndex = 0;
+          nowPlayingPage += 1;
+        });
+        response = await dio.get(nowPlaying + nowPlayingPage.toString());
+      }
+      return Movie.fromJson(response.data['results'][nowPlayingIndex]);
 
     } else {
       print("SOMETHING WENT WILDLY WRONG");
     }
+  }
+
+  void changeMovie(String genre, String list) {
+    if (this.mounted) {
+      if (list == "Popular") {
+        setState(() {
+          popularIndex++;
+        });
+      } else if (list == "Top Rated") {
+        setState(() {
+          topRatedIndex++;
+        });
+      } else if (list == "Upcoming") {
+        setState(() {
+          upcomingIndex++;
+        });
+      } else if (list == "Now Playing") {
+        setState(() {
+          nowPlayingIndex++;
+        });
+      }
+    }
+
+    movie = getMovie(genre, list);
   }
 
   @override
@@ -179,9 +309,97 @@ class _MyMovieState extends State<MyMoviePage> {
               future: movie,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(snapshot.data.name);
+                  int size = snapshot.data.genre.length;
+                  List<String> g = new List.filled(size, "");
+                  for (int i = 0; i < size; i++) {
+                    if (i == size - 1) {
+                      g[i] = snapshot.data.genre_list[snapshot.data.genre[i]];
+                    } else {
+                      g[i] = snapshot.data.genre_list[snapshot.data.genre[i]] + "/";
+                    }
+                  }
+                  return Column(
+                    children: [
+                      Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                      Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
+                            Text(snapshot.data.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child:  Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
+                            Row(
+                              children: g.map((item) => new Text(item)).toList(),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
+                            Flexible(child: Text(snapshot.data.desc, softWrap: true, overflow: TextOverflow.ellipsis,)),
+                          ],
+                        ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          //put buttons here
+                          Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints.tightFor(width: 90, height: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                 List<int> l = [];
+                                  l.add(snapshot.data.id);
+                                  db.collection('users').doc(uid).update({
+                                    'liked' : FieldValue.arrayUnion(l),
+                                  });
+                                  changeMovie(genredropdownvalue, listdropdownvalue);
+                                },
+                                child: Text("LIKE?", style: TextStyle(color: Colors.white),),
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints.tightFor(width: 90, height: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  List<int> l = [];
+                                  l.add(snapshot.data.id);
+                                  db.collection('users').doc(uid).update({
+                                    'disliked' : FieldValue.arrayUnion(l),
+                                  });
+                                  changeMovie(genredropdownvalue, listdropdownvalue);
+                                },
+                                child: Text("DISLIKE?", style: TextStyle(color: Colors.white),),
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
                 } else if (snapshot.hasError) {
-                  return Text("Something went wrong, try again");
+                  return Text(snapshot.error.toString());
                 } else {
                   return CircularProgressIndicator();
                 }
@@ -194,3 +412,4 @@ class _MyMovieState extends State<MyMoviePage> {
   }
 }
 //END OF MOVIE PAGE WIDGET
+
