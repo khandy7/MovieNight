@@ -171,30 +171,30 @@ class _MyProfileEditState extends State<MyProfileEdit> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
               Padding(
               padding: EdgeInsets.all(8.0),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
                     onPressed: () {
                       //after this _image holds the users picked image
                       getImage(true);
                   },
-                    child: Text("Choose photo from phone"),
+                    child: Text("Choose photo"),
                   ),
                 ],
               ),
             ),
             //Put several forms here for things like name, fav movie, short bio
-            Text("Enter your full name"),
+            //Text("Enter your full name"),
             nameForm(_nameKey, nameController),
-            Text("Enter your favorite movie"),
+            //Text("Enter your favorite movie"),
             movieForm(_movieKey, movieController),
-            Text("Enter your favorite genre"),
+            //Text("Enter your favorite genre"),
             genreForm(_genreKey, genreController),
-            Text("Enter a short bio about yourself"),
+            //Text("Enter a short bio about yourself"),
             bioForm(_bioKey, bioController),
             ElevatedButton(
                 onPressed: () async {
@@ -204,8 +204,8 @@ class _MyProfileEditState extends State<MyProfileEdit> {
                       firebase_storage.Reference n = ref.storage.refFromURL(prof_pic);
                       ref.child(n.fullPath.substring(13)).delete();
                     }
-                    await saveImages(_image, sightingRef).then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)))
-                    );
+                    await saveImages(_image, sightingRef);//.then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)))
+                    //);
                   }
                   if (nameController.text != "") {
                     db.collection('users').doc(auth.currentUser.uid).set({
@@ -235,9 +235,9 @@ class _MyProfileEditState extends State<MyProfileEdit> {
                     print("Successfully updated fav movie");
                     });
                   }
-                  if (_image == null) {
+                 // if (_image == null) {
                     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyProfile(retPage: widget.retPage,)));
-                  }
+                  //}
                 },
                 child: Text("Save"),
             ),
@@ -250,7 +250,7 @@ class _MyProfileEditState extends State<MyProfileEdit> {
 }
 
 Widget nameForm(Key _nameKey, TextEditingController nameController) => Padding(
-    padding: EdgeInsets.all(16.0),
+    padding: EdgeInsets.all(8.0),
     child: Form(
       key: _nameKey,
       child: TextFormField(
@@ -273,7 +273,7 @@ Widget nameForm(Key _nameKey, TextEditingController nameController) => Padding(
 );
 
 Widget movieForm(Key _movieKey, TextEditingController movieController) => Padding(
-  padding: EdgeInsets.all(16.0),
+  padding: EdgeInsets.all(8.0),
   child: Form(
     key: _movieKey,
     child: TextFormField(
@@ -296,7 +296,7 @@ Widget movieForm(Key _movieKey, TextEditingController movieController) => Paddin
 );
 
 Widget bioForm(Key _bioKey, TextEditingController bioController) => Padding(
-  padding: EdgeInsets.all(16.0),
+  padding: EdgeInsets.all(8.0),
   child: Form(
     key: _bioKey,
     child: TextFormField(
@@ -319,7 +319,7 @@ Widget bioForm(Key _bioKey, TextEditingController bioController) => Padding(
 );
 
 Widget genreForm(Key _genreKey, TextEditingController genreController) => Padding(
-  padding: EdgeInsets.all(16.0),
+  padding: EdgeInsets.all(8.0),
   child: Form(
     key: _genreKey,
     child: TextFormField(

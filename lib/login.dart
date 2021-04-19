@@ -143,6 +143,7 @@ class _MyLoginState extends State<MyLoginPage> {
                                 "trendingIndex" : 0,
                                 "liked" : [],
                                 "disliked" : [],
+                                "watchlist" : [],
                               },SetOptions(merge: true)).then((_) {
                                 print("Successfully created user doc!");
                                 ScaffoldMessenger.of(context).removeCurrentSnackBar();

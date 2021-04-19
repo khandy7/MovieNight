@@ -23,6 +23,9 @@ class _MyHomePageState extends State<MyHomePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String email;
   String uid;
+  int trendingIndex;
+  int page = 0;
+  bool check = false;
 
   @override
   void initState() {
@@ -36,6 +39,19 @@ class _MyHomePageState extends State<MyHomePage> {
             email = auth.currentUser.email.toString();
             uid = auth.currentUser.uid.toString();
           });
+          db.collection('users').doc(uid).get().then((value) {
+            setState(() {
+              trendingIndex = value['trendingIndex'];
+            });
+            if (trendingIndex >= 20) {
+              setState(() {
+                page = 1;
+              });
+            }
+            setState(() {
+              check = true;
+            });
+          });
         }
       }
     });
@@ -43,10 +59,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final PageController pageController = PageController(initialPage: 0);
+    final PageController pageController = PageController(initialPage: page);
     //EMAIL and UID is the current users identifiers
     //Get identifiers from shared prefs on any screen
-    return Scaffold(
+    return check == false ? CircularProgressIndicator() : Scaffold(
       body: PageView(
         scrollDirection: Axis.vertical,
         controller: pageController,
@@ -107,6 +123,7 @@ class _MovieListState extends State<MovieList> {
   List<dynamic> liked;
   List<dynamic> disliked;
   List<dynamic> combo;
+  List<dynamic> watchlist;
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   Future<List<Movie>> movies;
@@ -122,12 +139,18 @@ class _MovieListState extends State<MovieList> {
       final response = await dio.get(oneMovie + movies[i].toString() + apiKey);
       if (response.statusCode == 200) {
         Movie m = Movie.fromJsonSingle(response.data);
-        if (list == "Liked") {
+        if (list == "All") {
+
+        } else if (list == "Liked") {
           if (!liked.contains(m.id)) {
             continue;
           }
-        } else {
+        } else if (list == "Disliked") {
           if (!disliked.contains(m.id)) {
+            continue;
+          }
+        } else {
+          if (!watchlist.contains(m.id)) {
             continue;
           }
         }
@@ -158,7 +181,7 @@ class _MovieListState extends State<MovieList> {
   bool done = false;
 
   String genredropdownvalue = "Any";
-  String listdropdownvalue = "Liked";
+  String listdropdownvalue = "All";
 
   var dio = Dio();
 
@@ -177,6 +200,7 @@ class _MovieListState extends State<MovieList> {
             setState(() {
               liked = value['liked'];
               disliked = value['disliked'];
+              watchlist = value['watchlist'];
               combo = liked + disliked;
               movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
             });
@@ -244,7 +268,7 @@ class _MovieListState extends State<MovieList> {
                               movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
                             });
                           },
-                          items: <String>["Liked", "Disliked"].map<DropdownMenuItem<String>>((String value) {
+                          items: <String>["Liked", "Disliked", "Watchlist", "All"].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
                               value: value,
                               child: Text(value),
@@ -254,11 +278,33 @@ class _MovieListState extends State<MovieList> {
                       ),
                     ],
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(left:28.0, top: 8.0, bottom: 8.0),
+                        child: Text("Watchlist"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(top: 8.0, bottom: 8.0),
+                        child: Text("Movie"),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(right:28.0, top: 8.0, bottom: 8.0),
+                        child: Text("Remove"),
+                      ),
+
+                    ],
+                  ),
                   done == false ? CircularProgressIndicator() : snapshot.data.length == 0 ? noMovies() : Expanded(child: ListView.builder(
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
+                        bool check = false;
                         final movie = snapshot.data[index];
                         int size = movie.genre.length;
+                        if (size > 2) {
+                          size = 2;
+                        }
                         List<String> g = new List.filled(size, "");
                         for (int i = 0; i < size; i++) {
                           if (i == size - 1) {
@@ -266,6 +312,9 @@ class _MovieListState extends State<MovieList> {
                           } else {
                             g[i] = movie.genre_list[movie.genre[i]] + "/";
                           }
+                        }
+                        if (watchlist.contains(movie.id)) {
+                          check = true;
                         }
                         return Card(
                           elevation: 6.0,
@@ -286,14 +335,78 @@ class _MovieListState extends State<MovieList> {
                                 ),
                                 child: Padding(
                                   padding: EdgeInsets.only(top:8),
-                                  child: Icon(Icons.add_circle_outline, color: Colors.black,),
+                                  child: ElevatedButton(
+                                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                                    child: check == false ? Icon(Icons.add_circle_outline, color: Colors.black,) : Icon(Icons.remove_red_eye, color: Colors.black,),
+                                    onPressed: () {
+                                      List<int> l = [];
+                                      l.add(movie.id);
+                                      //if check false add to watchlist
+                                      if (!check) {
+                                        watchlist.add(movie.id);
+                                        db.collection('users').doc(uid).update({
+                                          'watchlist' : FieldValue.arrayUnion(l),
+                                        });
+                                        setState(() {
+                                          check = true;
+                                        });
+                                      } else {
+                                        //else remove from watchlist
+                                        watchlist.remove(movie.id);
+                                        db.collection('users').doc(uid).update({
+                                          'watchlist' : watchlist,
+                                        });
+                                        setState(() {
+                                          check = false;
+                                        });
+                                      }
+                                    },
+                                  ),
                                 ),
                               ),
                               title: Text(movie.name,style:TextStyle(fontSize: 20, color: Colors.black),),
                               subtitle: Row(
                                 children: g.map((item) => new Text(item, style: TextStyle(fontSize: 12), overflow: TextOverflow.ellipsis,)).toList(),
                               ),
-                              trailing: Icon(Icons.remove,color: Colors.black,size: 30.0,),
+                              trailing: ElevatedButton(
+
+                                child: Icon(Icons.remove,color: Colors.black,size: 30.0,),
+                                onPressed: () {
+                                  if (liked.contains(movie.id)) {
+                                    List<dynamic> n = liked;
+                                    liked.remove(movie.id);
+                                    db.collection('users').doc(uid).update({
+                                      'liked' : n,
+                                    });
+                                    setState(() {
+                                      liked = n;
+                                    });
+                                  } else if (disliked.contains(movie.id)) {
+                                    List<dynamic> n = disliked;
+                                    disliked.remove(movie.id);
+                                    db.collection('users').doc(uid).update({
+                                      'disliked' : n,
+                                    });
+                                    setState(() {
+                                      disliked = n;
+                                    });
+                                  }
+                                  if (watchlist.contains(movie.id)) {
+                                    List<dynamic> n = watchlist;
+                                    watchlist.remove(movie.id);
+                                    db.collection('users').doc(uid).update({
+                                      'watchlist' : n,
+                                    });
+                                    setState(() {
+                                      watchlist = n;
+                                    });
+                                  }
+                                  setState(() {
+                                    combo = liked + disliked;
+                                  });
+                                  movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                                },
+                              ),
                             ),
                           ),
                         );
