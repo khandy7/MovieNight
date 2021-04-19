@@ -350,7 +350,7 @@ class _MyMovieState extends State<MyMoviePage> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                            Flexible(child: Text(snapshot.data.desc, softWrap: true, overflow: TextOverflow.ellipsis,)),
+                            Expanded(child: Text(snapshot.data.desc)),
                           ],
                         ),
                       ),

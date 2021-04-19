@@ -73,7 +73,6 @@ class _DailyMovieState extends State<DailyMovie> {
   Widget build(BuildContext context) {
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         //Put ROWS of different widgets here, like make widget that returns a row for top title,
         //then widget that returns the movie title and genre, then description, then buttons
@@ -82,7 +81,10 @@ class _DailyMovieState extends State<DailyMovie> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("Trending Now", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+            Padding(
+              padding: EdgeInsets.all(16.0),
+              child: Text("Trending Now", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
+            ),
           ],
         ),
         MovieOfDay(),
@@ -192,9 +194,11 @@ class _MovieListState extends State<MovieList> {
           if (snapshot.hasData) {
             return Center(
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Liked/Disliked Movies", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                  Padding(
+                    child: Text("Liked/Disliked Movies", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 25),),
+                    padding: EdgeInsets.only(top: 20),
+                  ),
                   //Put downdowns here
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -254,11 +258,44 @@ class _MovieListState extends State<MovieList> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         final movie = snapshot.data[index];
-                        return RichText(text: TextSpan(text: movie.name, style: TextStyle(fontSize: 20, color: Colors.black),recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewMovie(movie: movie)));
-                            }
-                          )
+                        int size = movie.genre.length;
+                        List<String> g = new List.filled(size, "");
+                        for (int i = 0; i < size; i++) {
+                          if (i == size - 1) {
+                            g[i] = movie.genre_list[movie.genre[i]];
+                          } else {
+                            g[i] = movie.genre_list[movie.genre[i]] + "/";
+                          }
+                        }
+                        return Card(
+                          elevation: 6.0,
+                          margin: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(),
+                            ),
+                            child: ListTile(
+                              onTap: () {
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewMovie(movie: movie)));
+                              },
+                              contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
+                              leading: Container(
+                                padding: EdgeInsets.only(right: 12.0),
+                                decoration: BoxDecoration(
+                                  border: Border(right: BorderSide(width: 1,color: Colors.black)),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.only(top:8),
+                                  child: Icon(Icons.add_circle_outline, color: Colors.black,),
+                                ),
+                              ),
+                              title: Text(movie.name,style:TextStyle(fontSize: 20, color: Colors.black),),
+                              subtitle: Row(
+                                children: g.map((item) => new Text(item, style: TextStyle(fontSize: 12), overflow: TextOverflow.ellipsis,)).toList(),
+                              ),
+                              trailing: Icon(Icons.remove,color: Colors.black,size: 30.0,),
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -407,7 +444,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
 
   @override
   Widget build(BuildContext context) {
-    return done == false ? CircularProgressIndicator() : FutureBuilder(
+    return FutureBuilder(
       future: movie,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
@@ -421,6 +458,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
               }
             }
             return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
                 Padding(
@@ -452,7 +490,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Flexible(child: Text(snapshot.data.desc, softWrap: true, overflow: TextOverflow.ellipsis,)),
+                      Expanded(child: Text(snapshot.data.desc)),
                     ],
                   ),
                 ),
@@ -507,9 +545,22 @@ class _MovieOfDayState extends State<MovieOfDay> {
               ],
             );
           } else if (snapshot.hasError) {
-            return Text("You have seen all the trending movies for the day. Come back tomorrow for more!");
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 240, right: 20, left: 20),
+                    child: Text("You have seen all the trending movies for the day. Come back tomorrow for more!", style: TextStyle(fontSize: 20),),
+                  ),
+                ],
+              ),
+            );
           } else {
-            return CircularProgressIndicator();
+            return Padding(
+              padding: EdgeInsets.only(top: 240),
+              child: CircularProgressIndicator(),
+            );
           }
         }
     );
@@ -521,7 +572,12 @@ Widget noMovies() {
   return Expanded(child: ListView.builder(
     itemCount: 1,
     itemBuilder: (context, index) {
-      return Text("None of your Movies match these conditions, try again");
+      return Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+          child: Text("None of your Movies match these conditions, try again"),
+        ),
+      );
     },
   ),
   );
