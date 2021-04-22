@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:movie_helper/models/movieModel.dart';
+import 'package:dio/dio.dart';
+import 'package:movie_helper/viewMovie.dart';
 
 
 class viewFriend extends StatefulWidget {
@@ -28,8 +31,12 @@ class _viewFriendState extends State<viewFriend> {
   List lst;
   int liked = 0;
   int disliked = 0;
-  int count;
+  List<dynamic> watchlist;
   bool done = false;
+  int count;
+  var dio = Dio();
+  String oneMovie = "https://api.themoviedb.org/3/movie/";
+  String apiKey = "?api_key=211ff81d2853a542be703d3104384047";
 
 
   @override
@@ -52,6 +59,7 @@ class _viewFriendState extends State<viewFriend> {
           prof_pic = value['prof_pic'];
           liked = value['liked'].length;
           disliked = value['disliked'].length;
+          watchlist = value['watchlist'];
           done = true;
         });
       });
@@ -118,7 +126,7 @@ class _viewFriendState extends State<viewFriend> {
             Padding(
               padding: EdgeInsets.all(8.0),
               child: bio == null ? Text("Bio: N/A") : Text("Bio: $bio"),
-            )
+            ),
           ],
         ),
       ),

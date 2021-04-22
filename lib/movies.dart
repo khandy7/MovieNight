@@ -26,7 +26,13 @@ class _MyMovieState extends State<MyMoviePage> {
 
   Dio dio = Dio();
 
-  //add page numbers to these as well
+  Map<String, int> genre_list = {
+    "Action":28, "Adventure":12, "Animation":16,
+      "Comedy":35, "Crime":80, "Documentary":99, "Drama":18, "Family":10751, "Fantasy":14,
+      "History":36, "Horror":27, "Music":10402, "Mystery":9648, "Romance":10749, "Science Fiction":878,
+      "TV Movie":10770, "Thriller":53, "War":10752, "Western":37
+  };
+
   String popular = 'https://api.themoviedb.org/3/movie/popular?api_key=211ff81d2853a542be703d3104384047&language=en-US&page=';
   int popularPage =  1;
   int popularIndex = 0;
@@ -39,6 +45,15 @@ class _MyMovieState extends State<MyMoviePage> {
   String upcoming = 'https://api.themoviedb.org/3/movie/upcoming?api_key=211ff81d2853a542be703d3104384047&language=en-US&page=';
   int upcomingPage = 1;
   int upcomingIndex = 0;
+  String allMovies = "https://api.themoviedb.org/3/discover/movie?api_key=211ff81d2853a542be703d3104384047&language=en-US&page=";
+  int allMoviesPage = 1;
+  int allMoviesIndex = 0;
+  String genreMovies = "https://api.themoviedb.org/3/discover/movie?api_key=211ff81d2853a542be703d3104384047&language=en-US&with_genres=";
+  String genreMovieWithPage = '&page=';
+  int genreMoviesIndex = 0;
+  int genreMoviesPage = 1;
+
+
 
   String picBase = "https://image.tmdb.org/t/p/w500";
 
@@ -158,7 +173,6 @@ class _MyMovieState extends State<MyMoviePage> {
       return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
-      print(nowPlayingIndex);
       if (nowPlayingIndex > 19) {
         setState(() {
           nowPlayingIndex = 0;
@@ -191,6 +205,76 @@ class _MyMovieState extends State<MyMoviePage> {
       }
       return Movie.fromJson(response.data['results'][nowPlayingIndex]);
 
+    } else if (list == "Any"){
+      int g;
+      int id;
+      var response;
+
+      if (genre == "Any") {
+        if (allMoviesIndex > 19) {
+          setState(() {
+            allMoviesIndex = 0;
+            allMoviesPage += 1;
+          });
+        }
+        response = await dio.get(allMovies + allMoviesPage.toString());
+        id = response.data['results'][allMoviesIndex]['id'];
+      } else {
+        print(genre);
+        if (genreMoviesIndex > 19) {
+          setState(() {
+            genreMoviesIndex = 0;
+            genreMoviesPage += 1;
+          });
+        }
+        //if specified genre only
+        g = genre_list[genre];
+        response = await dio.get(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
+        id = response.data['results'][genreMoviesIndex]['id'];
+      }
+
+      while(checkIfSeen(id)) {
+        if (genre == "Any") {
+          setState(() {
+            allMoviesIndex++;
+          });
+          if (allMoviesIndex > 19) {
+            setState(() {
+              allMoviesIndex = 0;
+              allMoviesPage += 1;
+            });
+            response = await dio.get(allMovies + allMoviesPage.toString());
+          }
+          id = response.data['results'][allMoviesIndex]['id'];
+
+        } else {
+          print("Seen it IN GENRE");
+          print(response.data['results'][genreMoviesIndex]['title']);
+          setState(() {
+            genreMoviesIndex++;
+          });
+          if (genreMoviesIndex > 19) {
+            setState(() {
+              genreMoviesIndex = 0;
+              genreMoviesPage += 1;
+            });
+            response = await dio.get(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
+          }
+          print(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
+
+          id = response.data['results'][genreMoviesIndex]['id'];
+
+        }
+      }
+      if (genre == "Any") {
+        return Movie.fromJson(response.data['results'][allMoviesIndex]);
+      } else {
+        print(response.data['results'][genreMoviesIndex]['title']);
+        return Movie.fromJson(response.data['results'][genreMoviesIndex]);
+      }
+
+
+
     } else {
       print("SOMETHING WENT WILDLY WRONG");
     }
@@ -214,6 +298,12 @@ class _MyMovieState extends State<MyMoviePage> {
         setState(() {
           nowPlayingIndex++;
         });
+      } else if (list == "Any") {
+        if (genre == "Any") {
+          allMoviesIndex++;
+        } else {
+          genreMoviesIndex++;
+        }
       }
     }
 
@@ -255,7 +345,7 @@ class _MyMovieState extends State<MyMoviePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
                   child: DropdownButton<String>(
                     value: genredropdownvalue,
                     icon: const Icon(Icons.arrow_downward),
@@ -266,8 +356,8 @@ class _MyMovieState extends State<MyMoviePage> {
                     onChanged: (String newValue) {
                       setState(() {
                         genredropdownvalue = newValue;
-                        movie = getMovie(genredropdownvalue, listdropdownvalue);
                       });
+                      movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
                     items: <String>["Any","Action", "Adventure", "Animation",
                       "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
@@ -281,7 +371,7 @@ class _MyMovieState extends State<MyMoviePage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
                   child:                       DropdownButton<String>(
                     value: listdropdownvalue,
                     icon: const Icon(Icons.arrow_downward),
@@ -292,10 +382,10 @@ class _MyMovieState extends State<MyMoviePage> {
                     onChanged: (String newValue) {
                       setState(() {
                         listdropdownvalue = newValue;
-                        movie = getMovie(genredropdownvalue, listdropdownvalue);
                       });
+                      movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
-                    items: <String>["Popular", "Top Rated", "Upcoming", "Now Playing"].map<DropdownMenuItem<String>>((String value) {
+                    items: <String>["Popular", "Top Rated", "Upcoming", "Now Playing", "Any"].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
                         child: Text(value),
@@ -326,8 +416,7 @@ class _MyMovieState extends State<MyMoviePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                            Text(snapshot.data.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                           Flexible( child: Text(snapshot.data.name,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),),
                           ],
                         ),
                       ),
@@ -336,7 +425,6 @@ class _MyMovieState extends State<MyMoviePage> {
                         child:  Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
                             Row(
                               children: g.map((item) => new Text(item)).toList(),
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -346,12 +434,41 @@ class _MyMovieState extends State<MyMoviePage> {
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                            Expanded(child: Text(snapshot.data.desc)),
-                          ],
+                        child: Container(
+                          width: 400,
+                          height: 75,
+                          child: ElevatedButton(
+                            style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                                  (Set<MaterialState> states) {
+                                return Colors.white; // Use the component's default.
+                              },
+                            ),
+                                shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))
+                            ),
+                            child: Text(snapshot.data.desc,softWrap: true, overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black,),),
+                            onPressed: () {
+                              showDialog(context: context, builder: (BuildContext context) {
+                                return new AlertDialog(
+                                  actions: [
+                                    ElevatedButton(onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                      child: Text("Close"),
+                                    ),
+                                  ],
+                                  title: Text("Description"),
+                                  content: new Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(snapshot.data.desc,softWrap: true),
+                                    ],
+                                  ),
+
+                                );
+                              });
+                            },
+                          ),
                         ),
                       ),
                       Row(
@@ -359,7 +476,7 @@ class _MyMovieState extends State<MyMoviePage> {
                         children: [
                           //put buttons here
                           Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.only(right:16.0, left: 16.0,top: 4),
                             child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 90, height: 40),
                               child: ElevatedButton(
@@ -377,7 +494,7 @@ class _MyMovieState extends State<MyMoviePage> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(16.0),
+                            padding: EdgeInsets.only(right:16.0, left: 16.0,top:4),
                             child: ConstrainedBox(
                               constraints: BoxConstraints.tightFor(width: 90, height: 40),
                               child: ElevatedButton(

@@ -26,6 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int trendingIndex;
   int page = 0;
   bool check = false;
+  Timestamp t;
 
   @override
   void initState() {
@@ -42,12 +43,21 @@ class _MyHomePageState extends State<MyHomePage> {
           db.collection('users').doc(uid).get().then((value) {
             setState(() {
               trendingIndex = value['trendingIndex'];
+              t = value["lastLogin"];
             });
-            if (trendingIndex >= 20) {
+            Timestamp n = Timestamp.now();
+            print(n.seconds - t.seconds);
+            if ((n.seconds - t.seconds) >= 86400) {
+              db.collection('users').doc(uid).update({
+                "lastLogin" : n,
+                "trendingIndex" : 0,
+              });
+            } else if(trendingIndex >= 20) {
               setState(() {
                 page = 1;
               });
             }
+
             setState(() {
               check = true;
             });
@@ -98,7 +108,7 @@ class _DailyMovieState extends State<DailyMovie> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.only(right:16.0, left:16.0, bottom: 8.0, top:4),
               child: Text("Trending Now", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),),
             ),
           ],
@@ -580,7 +590,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Text(snapshot.data.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                      Flexible( child: Text(snapshot.data.name,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),)
                     ],
                   ),
                 ),
@@ -599,12 +609,41 @@ class _MovieOfDayState extends State<MovieOfDay> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Expanded(child: Text(snapshot.data.desc)),
-                    ],
+                  child: Container(
+                    width: 400,
+                    height: 75,
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          return Colors.white; // Use the component's default.
+                        },
+                      ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))
+                      ),
+                      child: Text(snapshot.data.desc,softWrap: true, overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black,),),
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) {
+                          return new AlertDialog(
+                            actions: [
+                              ElevatedButton(onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                                child: Text("Close"),
+                              ),
+                            ],
+                            title: Text("Description"),
+                            content: new Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(snapshot.data.desc,softWrap: true),
+                              ],
+                            ),
+
+                          );
+                        });
+                      },
+                    ),
                   ),
                 ),
                 Row(
@@ -612,7 +651,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
                   children: [
                     //put buttons here
                     Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.only(right:16.0, left:16.0, bottom:8),
                       child: ConstrainedBox(
                         constraints: BoxConstraints.tightFor(width: 90, height: 40),
                         child: ElevatedButton(
@@ -630,7 +669,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: EdgeInsets.only(right:16.0, left:16.0, bottom:8),
                       child: ConstrainedBox(
                         constraints: BoxConstraints.tightFor(width: 90, height: 40),
                         child: ElevatedButton(

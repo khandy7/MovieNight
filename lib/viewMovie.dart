@@ -46,7 +46,7 @@ class viewMovie extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Text(movie.name, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                      Flexible( child: Text(movie.name,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),),
                     ],
                   ),
                 ),
@@ -65,12 +65,41 @@ class viewMovie extends StatelessWidget {
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Flexible(child: Text(movie.desc, softWrap: true,)),
-                    ],
+                  child: Container(
+                    width: 400,
+                    height: 100,
+                    child: ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
+                            (Set<MaterialState> states) {
+                          return Colors.white; // Use the component's default.
+                        },
+                      ),
+                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))
+                      ),
+                      child: Text(movie.desc,softWrap: true, overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black,),),
+                      onPressed: () {
+                        showDialog(context: context, builder: (BuildContext context) {
+                          return new AlertDialog(
+                            actions: [
+                              ElevatedButton(onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                                child: Text("Close"),
+                              ),
+                            ],
+                            title: Text("Description"),
+                            content: new Column(
+                              mainAxisSize: MainAxisSize.min,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(movie.desc,softWrap: true),
+                              ],
+                            ),
+
+                          );
+                        });
+                      },
+                    ),
                   ),
                 ),
               ],
