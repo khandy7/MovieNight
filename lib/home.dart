@@ -46,7 +46,6 @@ class _MyHomePageState extends State<MyHomePage> {
               t = value["lastLogin"];
             });
             Timestamp n = Timestamp.now();
-            print(n.seconds - t.seconds);
             if ((n.seconds - t.seconds) >= 86400) {
               db.collection('users').doc(uid).update({
                 "lastLogin" : n,
@@ -347,7 +346,7 @@ class _MovieListState extends State<MovieList> {
                                   padding: EdgeInsets.only(top:8),
                                   child: ElevatedButton(
                                     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
-                                    child: check == false ? Icon(Icons.add_circle_outline, color: Colors.black,) : Icon(Icons.remove_red_eye, color: Colors.black,),
+                                    child: check == false ? Icon(Icons.add_circle_outline, color: Colors.black,) : Icon(Icons.check_circle, color: Colors.black,),
                                     onPressed: () {
                                       List<int> l = [];
                                       l.add(movie.id);
@@ -514,8 +513,6 @@ class _MovieOfDayState extends State<MovieOfDay> {
       id = response.data['results'][index]['id'];
 
       while (checkIfSeen(id)) {
-        //print(id.toString());
-        print("has been seen");
         if (this.mounted) {
           setState(() {
             index += 1;
@@ -532,8 +529,6 @@ class _MovieOfDayState extends State<MovieOfDay> {
       }
       return Movie.fromJson(response.data['results'][index]);
     } else {
-
-      print(response.statusCode);
       throw Exception("Failed to load movie");
     }
   }

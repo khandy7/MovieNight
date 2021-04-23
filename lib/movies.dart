@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/models/movieModel.dart';
@@ -58,7 +59,7 @@ class _MyMovieState extends State<MyMoviePage> {
   String picBase = "https://image.tmdb.org/t/p/w500";
 
   String genredropdownvalue = "Any";
-  String listdropdownvalue = "Popular";
+  String listdropdownvalue = "Any";
 
   bool checkIfSeen(int id) {
     if (id == null) {
@@ -69,6 +70,19 @@ class _MyMovieState extends State<MyMoviePage> {
     } else {
       return false;
     }
+  }
+
+  bool checkIfGenre(List<dynamic> genres, String genre) {
+    if (genre == "Any") {
+      return true;
+    } else {
+      for (int i = 0; i < genres.length; i++) {
+        if (genre_list[genre] == genres[i]) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   //WORKING HERE LAST, NOT SURE IF IT WORKS FULLY
@@ -84,7 +98,11 @@ class _MyMovieState extends State<MyMoviePage> {
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][popularIndex]['id'];
-      while (checkIfSeen(id)) {
+      List<dynamic> genres = response.data['results'][popularIndex]['genre_ids'];
+      if (popularPage >= response.data['total_pages']) {
+        throw Exception("Out of pages");
+      }
+      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         setState(() {
           popularIndex++;
         });
@@ -93,9 +111,13 @@ class _MyMovieState extends State<MyMoviePage> {
             popularIndex = 0;
             popularPage += 1;
           });
+          if (popularPage >= response.data['total_pages']) {
+            throw Exception("Out of pages");
+          }
           response = await dio.get(popular + popularPage.toString());
         }
         id = response.data['results'][popularIndex]['id'];
+        genres = response.data['results'][popularIndex]['genre_ids'];
       }
       if (popularIndex > 19) {
         setState(() {
@@ -114,10 +136,15 @@ class _MyMovieState extends State<MyMoviePage> {
         });
       }
       var response = await dio.get(topRated + topRatedPage.toString());
+      if (topRatedPage >= response.data['total_pages']) {
+        throw Exception("Out of pages");
+      }
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][topRatedIndex]['id'];
-      while (checkIfSeen(id)) {
+      List<dynamic> genres = response.data['results'][topRatedIndex]['genre_ids'];
+
+      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         setState(() {
           topRatedIndex++;
         });
@@ -126,9 +153,13 @@ class _MyMovieState extends State<MyMoviePage> {
             topRatedIndex = 0;
             topRatedPage += 1;
           });
+          if (topRatedPage >= response.data['total_pages']) {
+            throw Exception("Out of pages");
+          }
           response = await dio.get(topRated + topRatedPage.toString());
         }
         id = response.data['results'][topRatedIndex]['id'];
+        genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
       if (topRatedIndex > 19) {
         setState(() {
@@ -147,10 +178,15 @@ class _MyMovieState extends State<MyMoviePage> {
         });
       }
       var response = await dio.get(upcoming + upcomingPage.toString());
+      if (upcomingPage >= response.data['total_pages']) {
+        throw Exception("Out of pages");
+      }
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][upcomingIndex]['id'];
-      while (checkIfSeen(id)) {
+      List<dynamic> genres = response.data['results'][upcomingIndex]['genre_ids'];
+
+      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         setState(() {
           upcomingIndex++;
         });
@@ -159,9 +195,13 @@ class _MyMovieState extends State<MyMoviePage> {
             upcomingIndex = 0;
             upcomingPage += 1;
           });
+          if (upcomingPage >= response.data['total_pages']) {
+            throw Exception("Out of pages");
+          }
           response = await dio.get(upcoming + upcomingPage.toString());
         }
         id = response.data['results'][upcomingIndex]['id'];
+        genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
       if (upcomingIndex > 19) {
         setState(() {
@@ -183,7 +223,12 @@ class _MyMovieState extends State<MyMoviePage> {
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][nowPlayingIndex]['id'];
-      while (checkIfSeen(id)) {
+      if (nowPlayingPage >= response.data['total_pages']) {
+        throw Exception("Out of pages");
+      }
+      List<dynamic> genres = response.data['results'][nowPlayingIndex]['genre_ids'];
+
+      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         setState(() {
           nowPlayingIndex++;
         });
@@ -192,9 +237,13 @@ class _MyMovieState extends State<MyMoviePage> {
             nowPlayingIndex = 0;
             nowPlayingPage += 1;
           });
+          if (nowPlayingPage >= response.data['total_pages']) {
+            throw Exception("Out of pages");
+          }
           response = await dio.get(nowPlaying + nowPlayingPage.toString());
         }
         id = response.data['results'][nowPlayingIndex]['id'];
+        genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
       if (nowPlayingIndex > 19) {
         setState(() {
@@ -209,6 +258,7 @@ class _MyMovieState extends State<MyMoviePage> {
       int g;
       int id;
       var response;
+      List<dynamic> genres;
 
       if (genre == "Any") {
         if (allMoviesIndex > 19) {
@@ -218,9 +268,11 @@ class _MyMovieState extends State<MyMoviePage> {
           });
         }
         response = await dio.get(allMovies + allMoviesPage.toString());
+        if (allMoviesPage >= response.data['total_pages']) {
+          throw Exception("Out of pages");
+        }
         id = response.data['results'][allMoviesIndex]['id'];
       } else {
-        print(genre);
         if (genreMoviesIndex > 19) {
           setState(() {
             genreMoviesIndex = 0;
@@ -230,10 +282,14 @@ class _MyMovieState extends State<MyMoviePage> {
         //if specified genre only
         g = genre_list[genre];
         response = await dio.get(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
+        if (genreMoviesPage >= response.data['total_pages']) {
+          throw Exception("Out of pages");
+        }
         id = response.data['results'][genreMoviesIndex]['id'];
+        genres = response.data['results'][genreMoviesIndex]['genre_ids'];
       }
 
-      while(checkIfSeen(id)) {
+      while(checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         if (genre == "Any") {
           setState(() {
             allMoviesIndex++;
@@ -243,13 +299,14 @@ class _MyMovieState extends State<MyMoviePage> {
               allMoviesIndex = 0;
               allMoviesPage += 1;
             });
+            if (allMoviesPage >= response.data['total_pages']) {
+              throw Exception("Out of pages");
+            }
             response = await dio.get(allMovies + allMoviesPage.toString());
           }
           id = response.data['results'][allMoviesIndex]['id'];
 
         } else {
-          print("Seen it IN GENRE");
-          print(response.data['results'][genreMoviesIndex]['title']);
           setState(() {
             genreMoviesIndex++;
           });
@@ -258,18 +315,18 @@ class _MyMovieState extends State<MyMoviePage> {
               genreMoviesIndex = 0;
               genreMoviesPage += 1;
             });
+            if (genreMoviesPage >= response.data['total_pages']) {
+              throw Exception("Out of pages");
+            }
             response = await dio.get(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
           }
-          print(genreMovies + g.toString() + genreMovieWithPage + genreMoviesPage.toString());
-
           id = response.data['results'][genreMoviesIndex]['id'];
-
+          genres = response.data['results'][genreMoviesIndex]['genre_ids'];
         }
       }
       if (genre == "Any") {
         return Movie.fromJson(response.data['results'][allMoviesIndex]);
       } else {
-        print(response.data['results'][genreMoviesIndex]['title']);
         return Movie.fromJson(response.data['results'][genreMoviesIndex]);
       }
 
@@ -300,9 +357,13 @@ class _MyMovieState extends State<MyMoviePage> {
         });
       } else if (list == "Any") {
         if (genre == "Any") {
-          allMoviesIndex++;
+          setState(() {
+            allMoviesIndex++;
+          });
         } else {
-          genreMoviesIndex++;
+          setState(() {
+            genreMoviesIndex++;
+          });
         }
       }
     }
@@ -357,7 +418,7 @@ class _MyMovieState extends State<MyMoviePage> {
                       setState(() {
                         genredropdownvalue = newValue;
                       });
-                      movie = getMovie(genredropdownvalue, listdropdownvalue);
+                      changeMovie(genredropdownvalue, listdropdownvalue);
                     },
                     items: <String>["Any","Action", "Adventure", "Animation",
                       "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
@@ -383,7 +444,7 @@ class _MyMovieState extends State<MyMoviePage> {
                       setState(() {
                         listdropdownvalue = newValue;
                       });
-                      movie = getMovie(genredropdownvalue, listdropdownvalue);
+                        changeMovie(genredropdownvalue, listdropdownvalue);
                     },
                     items: <String>["Popular", "Top Rated", "Upcoming", "Now Playing", "Any"].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -486,6 +547,9 @@ class _MyMovieState extends State<MyMoviePage> {
                                   db.collection('users').doc(uid).update({
                                     'liked' : FieldValue.arrayUnion(l),
                                   });
+                                  setState(() {
+                                    liked.add(l);
+                                  });
                                   changeMovie(genredropdownvalue, listdropdownvalue);
                                 },
                                 child: Text("LIKE?", style: TextStyle(color: Colors.white),),
@@ -504,6 +568,9 @@ class _MyMovieState extends State<MyMoviePage> {
                                   db.collection('users').doc(uid).update({
                                     'disliked' : FieldValue.arrayUnion(l),
                                   });
+                                  setState(() {
+                                    disliked.add(l);
+                                  });
                                   changeMovie(genredropdownvalue, listdropdownvalue);
                                 },
                                 child: Text("DISLIKE?", style: TextStyle(color: Colors.white),),
@@ -516,7 +583,7 @@ class _MyMovieState extends State<MyMoviePage> {
                     ],
                   );
                 } else if (snapshot.hasError) {
-                  return Text(snapshot.error.toString());
+                  return Text("No more movies match these conditions, try again.");
                 } else {
                   return CircularProgressIndicator();
                 }

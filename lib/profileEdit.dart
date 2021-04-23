@@ -172,8 +172,9 @@ class _MyProfileEditState extends State<MyProfileEdit> {
       body: Center(
         child: Column(
           children: [
+            Text("Profile Picture"),
               Padding(
-              padding: EdgeInsets.all(8.0),
+              padding: EdgeInsets.only(right:8.0, left:8.0, bottom:4.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -187,6 +188,7 @@ class _MyProfileEditState extends State<MyProfileEdit> {
                 ],
               ),
             ),
+            _image != null ? Text("Profile picture has been selected!") : Text("No profile picture selected."),
             //Put several forms here for things like name, fav movie, short bio
             //Text("Enter your full name"),
             nameForm(_nameKey, nameController),
@@ -241,7 +243,7 @@ class _MyProfileEditState extends State<MyProfileEdit> {
                 },
                 child: Text("Save"),
             ),
-            Text("When saving a photo, it may take a few seconds after pressing save to return to the previous screen.")
+            Text("It may take a few seconds after pressing save to return"),
           ],
         ),
       ),
@@ -250,7 +252,7 @@ class _MyProfileEditState extends State<MyProfileEdit> {
 }
 
 Widget nameForm(Key _nameKey, TextEditingController nameController) => Padding(
-    padding: EdgeInsets.all(8.0),
+    padding: EdgeInsets.all(3.0),
     child: Form(
       key: _nameKey,
       child: TextFormField(
@@ -273,7 +275,7 @@ Widget nameForm(Key _nameKey, TextEditingController nameController) => Padding(
 );
 
 Widget movieForm(Key _movieKey, TextEditingController movieController) => Padding(
-  padding: EdgeInsets.all(8.0),
+  padding: EdgeInsets.all(3.0),
   child: Form(
     key: _movieKey,
     child: TextFormField(
@@ -296,7 +298,7 @@ Widget movieForm(Key _movieKey, TextEditingController movieController) => Paddin
 );
 
 Widget bioForm(Key _bioKey, TextEditingController bioController) => Padding(
-  padding: EdgeInsets.all(8.0),
+  padding: EdgeInsets.all(3.0),
   child: Form(
     key: _bioKey,
     child: TextFormField(
@@ -319,7 +321,7 @@ Widget bioForm(Key _bioKey, TextEditingController bioController) => Padding(
 );
 
 Widget genreForm(Key _genreKey, TextEditingController genreController) => Padding(
-  padding: EdgeInsets.all(8.0),
+  padding: EdgeInsets.all(3.0),
   child: Form(
     key: _genreKey,
     child: TextFormField(
