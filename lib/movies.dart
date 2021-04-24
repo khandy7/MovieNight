@@ -61,6 +61,24 @@ class _MyMovieState extends State<MyMoviePage> {
   String genredropdownvalue = "Any";
   String listdropdownvalue = "Any";
 
+
+  void resetIndices() {
+    setState(() {
+      popularPage =  1;
+      popularIndex = 0;
+      nowPlayingPage = 1;
+      nowPlayingIndex = 0;
+      topRatedPage = 1;
+      topRatedIndex = 0;
+      upcomingPage = 1;
+      upcomingIndex = 0;
+      allMoviesPage = 1;
+      allMoviesIndex = 0;
+      genreMoviesIndex = 0;
+      genreMoviesPage = 1;
+    });
+  }
+
   bool checkIfSeen(int id) {
     if (id == null) {
       return false;
@@ -119,13 +137,6 @@ class _MyMovieState extends State<MyMoviePage> {
         id = response.data['results'][popularIndex]['id'];
         genres = response.data['results'][popularIndex]['genre_ids'];
       }
-      if (popularIndex > 19) {
-        setState(() {
-          popularIndex = 0;
-          popularPage += 1;
-        });
-        response = await dio.get(popular + popularPage.toString());
-      }
       return Movie.fromJson(response.data['results'][popularIndex]);
 
     } else if (list == "Top Rated") {
@@ -161,13 +172,6 @@ class _MyMovieState extends State<MyMoviePage> {
         id = response.data['results'][topRatedIndex]['id'];
         genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
-      if (topRatedIndex > 19) {
-        setState(() {
-          topRatedIndex = 0;
-          topRatedPage += 1;
-        });
-        response = await dio.get(topRated + topRatedPage.toString());
-      }
       return Movie.fromJson(response.data['results'][topRatedIndex]);
 
     } else if (list == "Upcoming") {
@@ -178,14 +182,13 @@ class _MyMovieState extends State<MyMoviePage> {
         });
       }
       var response = await dio.get(upcoming + upcomingPage.toString());
-      if (upcomingPage >= response.data['total_pages']) {
-        throw Exception("Out of pages");
-      }
       //in here check if they have seen the movie
       //if they have, check if index is 19, if so increment page and reset index
       int id = response.data['results'][upcomingIndex]['id'];
       List<dynamic> genres = response.data['results'][upcomingIndex]['genre_ids'];
-
+      if (upcomingPage >= response.data['total_pages']) {
+        throw Exception("Out of pages");
+      }
       while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         setState(() {
           upcomingIndex++;
@@ -201,15 +204,12 @@ class _MyMovieState extends State<MyMoviePage> {
           response = await dio.get(upcoming + upcomingPage.toString());
         }
         id = response.data['results'][upcomingIndex]['id'];
-        genres = response.data['results'][topRatedIndex]['genre_ids'];
+        genres = response.data['results'][upcomingIndex]['genre_ids'];
       }
-      if (upcomingIndex > 19) {
-        setState(() {
-          upcomingIndex = 0;
-          upcomingPage += 1;
-        });
-        response = await dio.get(upcoming + upcomingPage.toString());
-      }
+      print("BOUTTA RETURN");
+      print(upcomingIndex.toString() + " is the index");
+      print(upcomingPage.toString() + " is the page");
+      print(response.data['results'][upcomingIndex]['title']);
       return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
@@ -243,14 +243,7 @@ class _MyMovieState extends State<MyMoviePage> {
           response = await dio.get(nowPlaying + nowPlayingPage.toString());
         }
         id = response.data['results'][nowPlayingIndex]['id'];
-        genres = response.data['results'][topRatedIndex]['genre_ids'];
-      }
-      if (nowPlayingIndex > 19) {
-        setState(() {
-          nowPlayingIndex = 0;
-          nowPlayingPage += 1;
-        });
-        response = await dio.get(nowPlaying + nowPlayingPage.toString());
+        genres = response.data['results'][nowPlayingIndex]['genre_ids'];
       }
       return Movie.fromJson(response.data['results'][nowPlayingIndex]);
 
@@ -329,9 +322,6 @@ class _MyMovieState extends State<MyMoviePage> {
       } else {
         return Movie.fromJson(response.data['results'][genreMoviesIndex]);
       }
-
-
-
     } else {
       print("SOMETHING WENT WILDLY WRONG");
     }
@@ -418,7 +408,8 @@ class _MyMovieState extends State<MyMoviePage> {
                       setState(() {
                         genredropdownvalue = newValue;
                       });
-                      changeMovie(genredropdownvalue, listdropdownvalue);
+                      resetIndices();
+                      movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
                     items: <String>["Any","Action", "Adventure", "Animation",
                       "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
@@ -444,7 +435,8 @@ class _MyMovieState extends State<MyMoviePage> {
                       setState(() {
                         listdropdownvalue = newValue;
                       });
-                        changeMovie(genredropdownvalue, listdropdownvalue);
+                        resetIndices();
+                        movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
                     items: <String>["Popular", "Top Rated", "Upcoming", "Now Playing", "Any"].map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
@@ -471,6 +463,7 @@ class _MyMovieState extends State<MyMoviePage> {
                   }
                   return Column(
                     children: [
+                      snapshot.data.pic == null ? Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,) :
                       Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
                       Padding(
                         padding: EdgeInsets.all(8.0),

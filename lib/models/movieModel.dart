@@ -15,6 +15,14 @@ class Movie {
   Movie({this.name, this.desc, this.genre, this.id, this.pic, this.watch});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
+    if (json['poster_path'] == null) {
+      return Movie(
+        name: json["title"],
+        desc: json["overview"],
+        genre: json["genre_ids"],
+        id : json['id'],
+      );
+    }
     return Movie(
       name: json["title"],
       desc: json["overview"],
