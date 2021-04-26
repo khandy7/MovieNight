@@ -21,8 +21,6 @@ class _MyMovieState extends State<MyMoviePage> {
   FirebaseAuth auth = FirebaseAuth.instance;
   String email;
   String uid;
-  List<dynamic> liked;
-  List<dynamic> disliked;
   Future<Movie> movie;
 
   Dio dio = Dio();
@@ -54,12 +52,14 @@ class _MyMovieState extends State<MyMoviePage> {
   int genreMoviesIndex = 0;
   int genreMoviesPage = 1;
 
-
+  Map map_liked;
+  Map map_disliked;
 
   String picBase = "https://image.tmdb.org/t/p/w500";
 
   String genredropdownvalue = "Any";
   String listdropdownvalue = "Any";
+  List<dynamic> seen;
 
 
   void resetIndices() {
@@ -83,7 +83,7 @@ class _MyMovieState extends State<MyMoviePage> {
     if (id == null) {
       return false;
     }
-    if (liked.contains(id) || disliked.contains(id)) {
+    if (seen.contains(id)) {
       return true;
     } else {
       return false;
@@ -374,8 +374,9 @@ class _MyMovieState extends State<MyMoviePage> {
           });
           db.collection('users').doc(uid).get().then((value) {
             setState(() {
-              liked = value['liked'];
-              disliked = value['disliked'];
+              map_liked = value['map_liked'];
+              map_disliked = value['map_disliked'];
+              seen = value['seen'];
               movie = getMovie(genredropdownvalue, listdropdownvalue);
             });
           });
@@ -535,13 +536,19 @@ class _MyMovieState extends State<MyMoviePage> {
                               constraints: BoxConstraints.tightFor(width: 90, height: 40),
                               child: ElevatedButton(
                                 onPressed: () {
-                                 List<int> l = [];
-                                  l.add(snapshot.data.id);
-                                  db.collection('users').doc(uid).update({
-                                    'liked' : FieldValue.arrayUnion(l),
-                                  });
+                                  Map l = map_liked;
+                                  List<dynamic> k = [snapshot.data.id];
+                                  List<dynamic> a = [snapshot.data.name];
+                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
+                                    a.add(snapshot.data.genre[i]);
+                                  }
                                   setState(() {
-                                    liked.add(l);
+                                    seen.add(snapshot.data.id);
+                                  });
+                                  l[snapshot.data.id.toString()] = a;
+                                  db.collection('users').doc(uid).update({
+                                    "seen" : FieldValue.arrayUnion(k),
+                                    'map_liked' : l,
                                   });
                                   changeMovie(genredropdownvalue, listdropdownvalue);
                                 },
@@ -556,13 +563,19 @@ class _MyMovieState extends State<MyMoviePage> {
                               constraints: BoxConstraints.tightFor(width: 90, height: 40),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  List<int> l = [];
-                                  l.add(snapshot.data.id);
-                                  db.collection('users').doc(uid).update({
-                                    'disliked' : FieldValue.arrayUnion(l),
-                                  });
+                                  Map l = map_disliked;
+                                  List<dynamic> a = [snapshot.data.name];
+                                  List<dynamic> k = [snapshot.data.id];
+                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
+                                    a.add(snapshot.data.genre[i]);
+                                  }
                                   setState(() {
-                                    disliked.add(l);
+                                    seen.add(snapshot.data.id);
+                                  });
+                                  l[snapshot.data.id.toString()] = a;
+                                  db.collection('users').doc(uid).update({
+                                    "seen" : FieldValue.arrayUnion(k),
+                                    'map_disliked' : l,
                                   });
                                   changeMovie(genredropdownvalue, listdropdownvalue);
                                 },

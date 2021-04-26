@@ -51,8 +51,8 @@ class _MyProfileState extends State<MyProfile> {
               favGenre = value['favGenre'];
               favMovie = value['favMovie'];
               prof_pic = value['prof_pic'];
-              liked = value['liked'].length;
-              disliked = value['disliked'].length;
+              liked = value['map_liked'].length;
+              disliked = value['map_disliked'].length;
               friend_count = value['friends'].length;
               friends = friend_count.toString();
               done = true;

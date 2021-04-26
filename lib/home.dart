@@ -129,40 +129,42 @@ class MovieList extends StatefulWidget {
 class _MovieListState extends State<MovieList> {
 
   String email, uid;
-  List<dynamic> liked;
-  List<dynamic> disliked;
-  List<dynamic> combo;
+  Map combo = {};
   List<dynamic> watchlist;
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   Future<List<Movie>> movies;
-
+  Map map_liked;
+  Map map_disliked;
   // g[i] = snapshot.data.genre_list[snapshot.data.genre[i]];
 
-  Future<List<Movie>> getMovies(List<dynamic> movies, String genre, String list) async {
+  Future<List<Movie>> getMovies(Map movies, String genre, String list) async {
     setState(() {
       done = false;
     });
     List<Movie> newMovies = [];
-    for (int i = movies.length-1; i >= 0; i--) {
-      final response = await dio.get(oneMovie + movies[i].toString() + apiKey);
-      if (response.statusCode == 200) {
-        Movie m = Movie.fromJsonSingle(response.data);
-        if (list == "All") {
+    movies.forEach((key, value) {
+      bool good = true;
+      Movie m = new Movie(id: int.parse(key), name: value[0], genre: []);
+      for (int i = 1; i < value.length; i++) {
+        m.genre.add(value[i]);
+      }
+      if (list == "All") {
 
-        } else if (list == "Liked") {
-          if (!liked.contains(m.id)) {
-            continue;
-          }
-        } else if (list == "Disliked") {
-          if (!disliked.contains(m.id)) {
-            continue;
-          }
-        } else {
-          if (!watchlist.contains(m.id)) {
-            continue;
-          }
+      } else if (list == "Liked") {
+        if (!map_liked.containsKey(m.id.toString())) {
+          good = false;
         }
+      } else if (list == "Disliked") {
+        if (!map_disliked.containsKey(m.id.toString())) {
+          good = false;
+        }
+      } else {
+        if (!watchlist.contains(m.id)) {
+          good = false;
+        }
+      }
+      if (good != false) {
         for (int i = 0; i < m.genre.length; i++) {
           if (genre == "Any" || m.genre_list[m.genre[i]] == genre) {
             newMovies.add(m);
@@ -170,7 +172,8 @@ class _MovieListState extends State<MovieList> {
           }
         }
       }
-    }
+    });
+
     setState(() {
       done = true;
     });
@@ -190,7 +193,7 @@ class _MovieListState extends State<MovieList> {
   bool done = false;
 
   String genredropdownvalue = "Any";
-  String listdropdownvalue = "All";
+  String listdropdownvalue = "Liked";
 
   var dio = Dio();
 
@@ -207,10 +210,11 @@ class _MovieListState extends State<MovieList> {
           });
           db.collection('users').doc(uid).get().then((value) {
             setState(() {
-              liked = value['liked'];
-              disliked = value['disliked'];
+              map_liked = value['map_liked'];
+              map_disliked = value['map_disliked'];
               watchlist = value['watchlist'];
-              combo = liked + disliked;
+              combo.addAll(map_liked);
+              combo.addAll(map_disliked);
               movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
             });
           });
@@ -352,16 +356,20 @@ class _MovieListState extends State<MovieList> {
                                       l.add(movie.id);
                                       //if check false add to watchlist
                                       if (!check) {
-                                        watchlist.add(movie.id);
+                                       setState(() {
+                                         watchlist.add(movie.id);
+                                       });
                                         db.collection('users').doc(uid).update({
-                                          'watchlist' : FieldValue.arrayUnion(l),
+                                          'watchlist' : watchlist,
                                         });
                                         setState(() {
                                           check = true;
                                         });
                                       } else {
                                         //else remove from watchlist
-                                        watchlist.remove(movie.id);
+                                        setState(() {
+                                          watchlist.remove(movie.id);
+                                        });
                                         db.collection('users').doc(uid).update({
                                           'watchlist' : watchlist,
                                         });
@@ -381,37 +389,33 @@ class _MovieListState extends State<MovieList> {
 
                                 child: Icon(Icons.remove,color: Colors.black,size: 30.0,),
                                 onPressed: () {
-                                  if (liked.contains(movie.id)) {
-                                    List<dynamic> n = liked;
-                                    liked.remove(movie.id);
-                                    db.collection('users').doc(uid).update({
-                                      'liked' : n,
-                                    });
+                                  if (map_liked.containsKey(movie.id.toString())) {
                                     setState(() {
-                                      liked = n;
+                                      map_liked.remove(movie.id.toString());
                                     });
-                                  } else if (disliked.contains(movie.id)) {
-                                    List<dynamic> n = disliked;
-                                    disliked.remove(movie.id);
                                     db.collection('users').doc(uid).update({
-                                      'disliked' : n,
+                                      'map_liked' : map_liked,
                                     });
+                                  } else if (map_disliked.containsKey(movie.id.toString())) {
                                     setState(() {
-                                      disliked = n;
+                                      map_disliked.remove(movie.id.toString());
+                                    });
+                                    db.collection('users').doc(uid).update({
+                                      'map_disliked' : map_disliked,
                                     });
                                   }
                                   if (watchlist.contains(movie.id)) {
-                                    List<dynamic> n = watchlist;
-                                    watchlist.remove(movie.id);
-                                    db.collection('users').doc(uid).update({
-                                      'watchlist' : n,
-                                    });
                                     setState(() {
-                                      watchlist = n;
+                                      watchlist.remove(movie.id);
+                                    });
+                                    db.collection('users').doc(uid).update({
+                                      'watchlist' : watchlist,
                                     });
                                   }
                                   setState(() {
-                                    combo = liked + disliked;
+                                    combo.clear();
+                                    combo.addAll(map_liked);
+                                    combo.addAll(map_disliked);
                                   });
                                   movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
                                 },
@@ -443,13 +447,14 @@ class MovieOfDay extends StatefulWidget {
 class _MovieOfDayState extends State<MovieOfDay> {
 
   String email, uid;
-  List<dynamic> liked;
-  List<dynamic> disliked;
   Timestamp time;
   int index;
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore db = FirebaseFirestore.instance;
   bool done = false;
+  Map map_liked;
+  Map map_disliked;
+  List<dynamic> seen;
 
   var dio = Dio();
 
@@ -468,7 +473,7 @@ class _MovieOfDayState extends State<MovieOfDay> {
     if (id == null) {
       return false;
     }
-    if (liked.contains(id) || disliked.contains(id)) {
+    if (seen.contains(id)) {
       return true;
     } else {
       return false;
@@ -546,10 +551,11 @@ class _MovieOfDayState extends State<MovieOfDay> {
           });
           db.collection('users').doc(uid).get().then((value) {
             setState(() {
-              liked = value['liked'];
-              disliked = value['disliked'];
               index = value['trendingIndex'];
               time = value['lastLogin'];
+              map_liked = value['map_liked'];
+              map_disliked = value['map_disliked'];
+              seen = value['seen'];
               movie = fetchTrending();
               done = true;
             });
@@ -651,10 +657,16 @@ class _MovieOfDayState extends State<MovieOfDay> {
                         constraints: BoxConstraints.tightFor(width: 90, height: 40),
                         child: ElevatedButton(
                           onPressed: () {
-                            List<int> l = [];
-                            l.add(snapshot.data.id);
+                            Map l = map_liked;
+                            List<dynamic> k = [snapshot.data.id];
+                            List<dynamic> a = [snapshot.data.name];
+                            for (int i = 0; i < snapshot.data.genre.length; i++) {
+                              a.add(snapshot.data.genre[i]);
+                            }
+                            l[snapshot.data.id.toString()] = a;
                             db.collection('users').doc(uid).update({
-                              'liked' : FieldValue.arrayUnion(l),
+                              "seen" : FieldValue.arrayUnion(k),
+                              'map_liked' : l,
                             });
                             changeMovie();
                           },
@@ -669,10 +681,16 @@ class _MovieOfDayState extends State<MovieOfDay> {
                         constraints: BoxConstraints.tightFor(width: 90, height: 40),
                         child: ElevatedButton(
                           onPressed: () {
-                            List<int> l = [];
-                            l.add(snapshot.data.id);
+                            Map l = map_disliked;
+                            List<dynamic> k = [snapshot.data.id];
+                            List<dynamic> a = [snapshot.data.name];
+                            for (int i = 0; i < snapshot.data.genre.length; i++) {
+                              a.add(snapshot.data.genre[i]);
+                            }
+                            l[snapshot.data.id.toString()] = a;
                             db.collection('users').doc(uid).update({
-                              'disliked' : FieldValue.arrayUnion(l),
+                              "seen" : FieldValue.arrayUnion(k),
+                              'map_disliked' : l,
                             });
                             changeMovie();
                           },
