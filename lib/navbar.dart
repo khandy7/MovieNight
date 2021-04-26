@@ -31,9 +31,11 @@ class _MyNavBarState extends State<MyNavBar> {
   ];
 
   void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
+    if(mounted) {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
 

@@ -63,20 +63,22 @@ class _MyMovieState extends State<MyMoviePage> {
 
 
   void resetIndices() {
-    setState(() {
-      popularPage =  1;
-      popularIndex = 0;
-      nowPlayingPage = 1;
-      nowPlayingIndex = 0;
-      topRatedPage = 1;
-      topRatedIndex = 0;
-      upcomingPage = 1;
-      upcomingIndex = 0;
-      allMoviesPage = 1;
-      allMoviesIndex = 0;
-      genreMoviesIndex = 0;
-      genreMoviesPage = 1;
-    });
+    if (mounted) {
+      setState(() {
+        popularPage =  1;
+        popularIndex = 0;
+        nowPlayingPage = 1;
+        nowPlayingIndex = 0;
+        topRatedPage = 1;
+        topRatedIndex = 0;
+        upcomingPage = 1;
+        upcomingIndex = 0;
+        allMoviesPage = 1;
+        allMoviesIndex = 0;
+        genreMoviesIndex = 0;
+        genreMoviesPage = 1;
+      });
+    }
   }
 
   bool checkIfSeen(int id) {
@@ -107,10 +109,12 @@ class _MyMovieState extends State<MyMoviePage> {
   Future<Movie> getMovie(String genre, String list) async {
     if (list == "Popular") {
       if (popularIndex > 19) {
-        setState(() {
-          popularIndex = 0;
-          popularPage += 1;
-        });
+        if (mounted) {
+          setState(() {
+            popularIndex = 0;
+            popularPage += 1;
+          });
+        }
       }
       var response = await dio.get(popular + popularPage.toString());
       //in here check if they have seen the movie
@@ -121,14 +125,18 @@ class _MyMovieState extends State<MyMoviePage> {
         throw Exception("Out of pages");
       }
       while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
-        setState(() {
-          popularIndex++;
-        });
-        if (popularIndex > 19) {
+        if (mounted) {
           setState(() {
-            popularIndex = 0;
-            popularPage += 1;
+            popularIndex++;
           });
+        }
+        if (popularIndex > 19) {
+          if (mounted) {
+            setState(() {
+              popularIndex = 0;
+              popularPage += 1;
+            });
+          }
           if (popularPage >= response.data['total_pages']) {
             throw Exception("Out of pages");
           }
@@ -141,10 +149,12 @@ class _MyMovieState extends State<MyMoviePage> {
 
     } else if (list == "Top Rated") {
       if (topRatedIndex > 19) {
-        setState(() {
-          topRatedIndex = 0;
-          topRatedPage += 1;
-        });
+        if (mounted) {
+          setState(() {
+            topRatedIndex = 0;
+            topRatedPage += 1;
+          });
+        }
       }
       var response = await dio.get(topRated + topRatedPage.toString());
       if (topRatedPage >= response.data['total_pages']) {
@@ -156,14 +166,18 @@ class _MyMovieState extends State<MyMoviePage> {
       List<dynamic> genres = response.data['results'][topRatedIndex]['genre_ids'];
 
       while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
-        setState(() {
-          topRatedIndex++;
-        });
-        if (topRatedIndex > 19) {
+        if (mounted) {
           setState(() {
-            topRatedIndex = 0;
-            topRatedPage += 1;
+            topRatedIndex++;
           });
+        }
+        if (topRatedIndex > 19) {
+          if (mounted) {
+            setState(() {
+              topRatedIndex = 0;
+              topRatedPage += 1;
+            });
+          }
           if (topRatedPage >= response.data['total_pages']) {
             throw Exception("Out of pages");
           }
@@ -176,10 +190,12 @@ class _MyMovieState extends State<MyMoviePage> {
 
     } else if (list == "Upcoming") {
       if (upcomingIndex > 19) {
-        setState(() {
-          upcomingIndex = 0;
-          upcomingPage += 1;
-        });
+        if (mounted) {
+          setState(() {
+            upcomingIndex = 0;
+            upcomingPage += 1;
+          });
+        }
       }
       var response = await dio.get(upcoming + upcomingPage.toString());
       //in here check if they have seen the movie
@@ -190,14 +206,18 @@ class _MyMovieState extends State<MyMoviePage> {
         throw Exception("Out of pages");
       }
       while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
-        setState(() {
-          upcomingIndex++;
-        });
-        if (upcomingIndex > 19) {
+        if (mounted) {
           setState(() {
-            upcomingIndex = 0;
-            upcomingPage += 1;
+            upcomingIndex++;
           });
+        }
+        if (upcomingIndex > 19) {
+          if (mounted) {
+            setState(() {
+              upcomingIndex = 0;
+              upcomingPage += 1;
+            });
+          }
           if (upcomingPage >= response.data['total_pages']) {
             throw Exception("Out of pages");
           }
@@ -206,18 +226,16 @@ class _MyMovieState extends State<MyMoviePage> {
         id = response.data['results'][upcomingIndex]['id'];
         genres = response.data['results'][upcomingIndex]['genre_ids'];
       }
-      print("BOUTTA RETURN");
-      print(upcomingIndex.toString() + " is the index");
-      print(upcomingPage.toString() + " is the page");
-      print(response.data['results'][upcomingIndex]['title']);
       return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
       if (nowPlayingIndex > 19) {
-        setState(() {
-          nowPlayingIndex = 0;
-          nowPlayingPage += 1;
-        });
+        if (mounted) {
+          setState(() {
+            nowPlayingIndex = 0;
+            nowPlayingPage += 1;
+          });
+        }
       }
       var response = await dio.get(nowPlaying + nowPlayingPage.toString());
       //in here check if they have seen the movie
@@ -229,14 +247,18 @@ class _MyMovieState extends State<MyMoviePage> {
       List<dynamic> genres = response.data['results'][nowPlayingIndex]['genre_ids'];
 
       while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
-        setState(() {
-          nowPlayingIndex++;
-        });
-        if (nowPlayingIndex > 19) {
+        if (mounted) {
           setState(() {
-            nowPlayingIndex = 0;
-            nowPlayingPage += 1;
+            nowPlayingIndex++;
           });
+        }
+        if (nowPlayingIndex > 19) {
+          if (mounted) {
+            setState(() {
+              nowPlayingIndex = 0;
+              nowPlayingPage += 1;
+            });
+          }
           if (nowPlayingPage >= response.data['total_pages']) {
             throw Exception("Out of pages");
           }
@@ -255,10 +277,12 @@ class _MyMovieState extends State<MyMoviePage> {
 
       if (genre == "Any") {
         if (allMoviesIndex > 19) {
-          setState(() {
-            allMoviesIndex = 0;
-            allMoviesPage += 1;
-          });
+         if (mounted) {
+           setState(() {
+             allMoviesIndex = 0;
+             allMoviesPage += 1;
+           });
+         }
         }
         response = await dio.get(allMovies + allMoviesPage.toString());
         if (allMoviesPage >= response.data['total_pages']) {
@@ -267,10 +291,12 @@ class _MyMovieState extends State<MyMoviePage> {
         id = response.data['results'][allMoviesIndex]['id'];
       } else {
         if (genreMoviesIndex > 19) {
-          setState(() {
-            genreMoviesIndex = 0;
-            genreMoviesPage += 1;
-          });
+          if (mounted) {
+            setState(() {
+              genreMoviesIndex = 0;
+              genreMoviesPage += 1;
+            });
+          }
         }
         //if specified genre only
         g = genre_list[genre];
@@ -284,14 +310,18 @@ class _MyMovieState extends State<MyMoviePage> {
 
       while(checkIfSeen(id) || !checkIfGenre(genres, genre)) {
         if (genre == "Any") {
-          setState(() {
-            allMoviesIndex++;
-          });
-          if (allMoviesIndex > 19) {
+          if (mounted) {
             setState(() {
-              allMoviesIndex = 0;
-              allMoviesPage += 1;
+              allMoviesIndex++;
             });
+          }
+          if (allMoviesIndex > 19) {
+            if (mounted) {
+              setState(() {
+                allMoviesIndex = 0;
+                allMoviesPage += 1;
+              });
+            }
             if (allMoviesPage >= response.data['total_pages']) {
               throw Exception("Out of pages");
             }
@@ -300,14 +330,18 @@ class _MyMovieState extends State<MyMoviePage> {
           id = response.data['results'][allMoviesIndex]['id'];
 
         } else {
-          setState(() {
-            genreMoviesIndex++;
-          });
-          if (genreMoviesIndex > 19) {
+          if (mounted) {
             setState(() {
-              genreMoviesIndex = 0;
-              genreMoviesPage += 1;
+              genreMoviesIndex++;
             });
+          }
+          if (genreMoviesIndex > 19) {
+            if (mounted) {
+              setState(() {
+                genreMoviesIndex = 0;
+                genreMoviesPage += 1;
+              });
+            }
             if (genreMoviesPage >= response.data['total_pages']) {
               throw Exception("Out of pages");
             }
@@ -406,9 +440,11 @@ class _MyMovieState extends State<MyMoviePage> {
                     style: const TextStyle(color: Colors.black),
                     underline: Container(height: 2, color: Colors.black54,),
                     onChanged: (String newValue) {
-                      setState(() {
-                        genredropdownvalue = newValue;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          genredropdownvalue = newValue;
+                        });
+                      }
                       resetIndices();
                       movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
@@ -433,9 +469,11 @@ class _MyMovieState extends State<MyMoviePage> {
                     style: const TextStyle(color: Colors.black),
                     underline: Container(height: 2, color: Colors.black54,),
                     onChanged: (String newValue) {
-                      setState(() {
-                        listdropdownvalue = newValue;
-                      });
+                      if (mounted) {
+                        setState(() {
+                          listdropdownvalue = newValue;
+                        });
+                      }
                         resetIndices();
                         movie = getMovie(genredropdownvalue, listdropdownvalue);
                     },
@@ -542,9 +580,11 @@ class _MyMovieState extends State<MyMoviePage> {
                                   for (int i = 0; i < snapshot.data.genre.length; i++) {
                                     a.add(snapshot.data.genre[i]);
                                   }
-                                  setState(() {
-                                    seen.add(snapshot.data.id);
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      seen.add(snapshot.data.id);
+                                    });
+                                  }
                                   l[snapshot.data.id.toString()] = a;
                                   db.collection('users').doc(uid).update({
                                     "seen" : FieldValue.arrayUnion(k),
@@ -569,9 +609,11 @@ class _MyMovieState extends State<MyMoviePage> {
                                   for (int i = 0; i < snapshot.data.genre.length; i++) {
                                     a.add(snapshot.data.genre[i]);
                                   }
-                                  setState(() {
-                                    seen.add(snapshot.data.id);
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      seen.add(snapshot.data.id);
+                                    });
+                                  }
                                   l[snapshot.data.id.toString()] = a;
                                   db.collection('users').doc(uid).update({
                                     "seen" : FieldValue.arrayUnion(k),

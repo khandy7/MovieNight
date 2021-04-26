@@ -52,14 +52,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 "trendingIndex" : 0,
               });
             } else if(trendingIndex >= 20) {
-              setState(() {
-                page = 1;
-              });
+              if (mounted) {
+                setState(() {
+                  page = 1;
+                });
+              }
             }
 
-            setState(() {
-              check = true;
-            });
+            if (mounted) {
+              setState(() {
+                check = true;
+              });
+            }
           });
         }
       }
@@ -139,9 +143,11 @@ class _MovieListState extends State<MovieList> {
   // g[i] = snapshot.data.genre_list[snapshot.data.genre[i]];
 
   Future<List<Movie>> getMovies(Map movies, String genre, String list) async {
-    setState(() {
-      done = false;
-    });
+   if (mounted) {
+     setState(() {
+       done = false;
+     });
+   }
     List<Movie> newMovies = [];
     movies.forEach((key, value) {
       bool good = true;
@@ -174,9 +180,11 @@ class _MovieListState extends State<MovieList> {
       }
     });
 
-    setState(() {
-      done = true;
-    });
+   if (mounted) {
+     setState(() {
+       done = true;
+     });
+   }
     return newMovies;
   }
 
@@ -209,14 +217,16 @@ class _MovieListState extends State<MovieList> {
             uid = auth.currentUser.uid.toString();
           });
           db.collection('users').doc(uid).get().then((value) {
-            setState(() {
-              map_liked = value['map_liked'];
-              map_disliked = value['map_disliked'];
-              watchlist = value['watchlist'];
-              combo.addAll(map_liked);
-              combo.addAll(map_disliked);
-              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
-            });
+            if (mounted) {
+              setState(() {
+                map_liked = value['map_liked'];
+                map_disliked = value['map_disliked'];
+                watchlist = value['watchlist'];
+                combo.addAll(map_liked);
+                combo.addAll(map_disliked);
+                movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+              });
+            }
           });
         }
       }
@@ -250,10 +260,12 @@ class _MovieListState extends State<MovieList> {
                           style: const TextStyle(color: Colors.black),
                           underline: Container(height: 2, color: Colors.black54,),
                           onChanged: (String newValue) {
-                            setState(() {
-                              genredropdownvalue = newValue;
-                              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
-                            });
+                            if (mounted) {
+                              setState(() {
+                                genredropdownvalue = newValue;
+                                movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                              });
+                            }
                           },
                           items: <String>["Any","Action", "Adventure", "Animation",
                             "Comedy", "Crime", "Documentary", "Drama", "Family", "Fantasy",
@@ -276,10 +288,12 @@ class _MovieListState extends State<MovieList> {
                           style: const TextStyle(color: Colors.black),
                           underline: Container(height: 2, color: Colors.black54,),
                           onChanged: (String newValue) {
-                            setState(() {
-                              listdropdownvalue = newValue;
-                              movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
-                            });
+                            if (mounted) {
+                              setState(() {
+                                listdropdownvalue = newValue;
+                                movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                              });
+                            }
                           },
                           items: <String>["Liked", "Disliked", "Watchlist", "All"].map<DropdownMenuItem<String>>((String value) {
                             return DropdownMenuItem<String>(
@@ -356,26 +370,34 @@ class _MovieListState extends State<MovieList> {
                                       l.add(movie.id);
                                       //if check false add to watchlist
                                       if (!check) {
-                                       setState(() {
-                                         watchlist.add(movie.id);
-                                       });
+                                       if (mounted) {
+                                         setState(() {
+                                           watchlist.add(movie.id);
+                                         });
+                                       }
                                         db.collection('users').doc(uid).update({
                                           'watchlist' : watchlist,
                                         });
-                                        setState(() {
-                                          check = true;
-                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            check = true;
+                                          });
+                                        }
                                       } else {
                                         //else remove from watchlist
-                                        setState(() {
-                                          watchlist.remove(movie.id);
-                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            watchlist.remove(movie.id);
+                                          });
+                                        }
                                         db.collection('users').doc(uid).update({
                                           'watchlist' : watchlist,
                                         });
-                                        setState(() {
-                                          check = false;
-                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            check = false;
+                                          });
+                                        }
                                       }
                                     },
                                   ),
@@ -390,33 +412,41 @@ class _MovieListState extends State<MovieList> {
                                 child: Icon(Icons.remove,color: Colors.black,size: 30.0,),
                                 onPressed: () {
                                   if (map_liked.containsKey(movie.id.toString())) {
-                                    setState(() {
-                                      map_liked.remove(movie.id.toString());
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        map_liked.remove(movie.id.toString());
+                                      });
+                                    }
                                     db.collection('users').doc(uid).update({
                                       'map_liked' : map_liked,
                                     });
                                   } else if (map_disliked.containsKey(movie.id.toString())) {
-                                    setState(() {
-                                      map_disliked.remove(movie.id.toString());
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        map_disliked.remove(movie.id.toString());
+                                      });
+                                    }
                                     db.collection('users').doc(uid).update({
                                       'map_disliked' : map_disliked,
                                     });
                                   }
                                   if (watchlist.contains(movie.id)) {
-                                    setState(() {
-                                      watchlist.remove(movie.id);
-                                    });
+                                    if (mounted) {
+                                      setState(() {
+                                        watchlist.remove(movie.id);
+                                      });
+                                    }
                                     db.collection('users').doc(uid).update({
                                       'watchlist' : watchlist,
                                     });
                                   }
-                                  setState(() {
-                                    combo.clear();
-                                    combo.addAll(map_liked);
-                                    combo.addAll(map_disliked);
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      combo.clear();
+                                      combo.addAll(map_liked);
+                                      combo.addAll(map_disliked);
+                                    });
+                                  }
                                   movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
                                 },
                               ),
@@ -550,15 +580,17 @@ class _MovieOfDayState extends State<MovieOfDay> {
             uid = auth.currentUser.uid.toString();
           });
           db.collection('users').doc(uid).get().then((value) {
-            setState(() {
-              index = value['trendingIndex'];
-              time = value['lastLogin'];
-              map_liked = value['map_liked'];
-              map_disliked = value['map_disliked'];
-              seen = value['seen'];
-              movie = fetchTrending();
-              done = true;
-            });
+            if (mounted) {
+              setState(() {
+                index = value['trendingIndex'];
+                time = value['lastLogin'];
+                map_liked = value['map_liked'];
+                map_disliked = value['map_disliked'];
+                seen = value['seen'];
+                movie = fetchTrending();
+                done = true;
+              });
+            }
           });
         }
       }
