@@ -7,6 +7,7 @@ INJECTED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManif
 MERGED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManifest.xml:1:1-47:12
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
 MERGED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
 MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/Project/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
 MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
@@ -78,6 +79,8 @@ application
 ADDED from /Users/kylehandy/CSCI567/Project/android/app/src/main/AndroidManifest.xml:8:5-46:19
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
 MERGED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
 MERGED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
 MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/Project/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
@@ -186,6 +189,8 @@ MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_aut
 MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/Project/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/Project/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
@@ -348,6 +353,14 @@ ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth
 		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
 		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/Project/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+activity#io.flutter.plugins.urllauncher.WebViewActivity
+ADDED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+	android:exported
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+	android:theme
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+	android:name
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/Project/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from [:image_picker] /Users/kylehandy/CSCI567/Project/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
 	android:name
