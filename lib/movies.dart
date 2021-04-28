@@ -15,7 +15,7 @@ class MyMoviePage extends StatefulWidget {
   _MyMovieState createState() => _MyMovieState();
 }
 
-class _MyMovieState extends State<MyMoviePage> {
+class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMixin {
 
   FirebaseFirestore db = FirebaseFirestore.instance;
   FirebaseAuth auth = FirebaseAuth.instance;
@@ -395,6 +395,48 @@ class _MyMovieState extends State<MyMoviePage> {
     movie = getMovie(genre, list);
   }
 
+  void onDragEnd(DraggableDetails details, Movie movie) {
+    final minimumDrag = 100;
+    if (details.offset.dx > minimumDrag) {
+      Map l = map_liked;
+      List<dynamic> k = [movie.id];
+      List<dynamic> a = [movie.name];
+      for (int i = 0; i < movie.genre.length; i++) {
+        a.add(movie.genre[i]);
+      }
+      if (mounted) {
+        setState(() {
+          seen.add(movie.id);
+        });
+      }
+      l[movie.id.toString()] = a;
+      db.collection('users').doc(uid).update({
+        "seen" : FieldValue.arrayUnion(k),
+        'map_liked' : l,
+      });
+      changeMovie(genredropdownvalue, listdropdownvalue);
+    } else if (details.offset.dx < -minimumDrag) {
+      Map l = map_disliked;
+      List<dynamic> k = [movie.id];
+      List<dynamic> a = [movie.name];
+      for (int i = 0; i < movie.genre.length; i++) {
+        a.add(movie.genre[i]);
+      }
+      if (mounted) {
+        setState(() {
+          seen.add(movie.id);
+        });
+      }
+      l[movie.id.toString()] = a;
+      db.collection('users').doc(uid).update({
+        "seen" : FieldValue.arrayUnion(k),
+        'map_disliked' : l,
+      });
+      changeMovie(genredropdownvalue, listdropdownvalue);
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
@@ -419,9 +461,9 @@ class _MyMovieState extends State<MyMoviePage> {
     });
   }
 
+
   @override
   Widget build(BuildContext context) {
-
 
     return Scaffold(
       body: Center(
@@ -502,8 +544,24 @@ class _MyMovieState extends State<MyMoviePage> {
                   }
                   return Column(
                     children: [
-                      snapshot.data.pic == null ? Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,) :
-                      Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                      snapshot.data.pic == null ? Draggable(
+                        child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,),
+                        feedback: Material(
+                          type: MaterialType.transparency,
+                          child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,),
+                        ),
+                        childWhenDragging: Container(height: 350, width: 250,),
+                        onDragEnd: (details) => onDragEnd(details, snapshot.data),
+                      ) :
+                      Draggable(
+                          child: Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                          feedback: Material(
+                            type: MaterialType.transparency,
+                            child: Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                          ),
+                        childWhenDragging: Container(height: 350, width: 250,),
+                        onDragEnd: (details) => onDragEnd(details, snapshot.data),
+                      ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Row(
@@ -574,35 +632,6 @@ class _MyMovieState extends State<MyMoviePage> {
                               constraints: BoxConstraints.tightFor(width: 90, height: 40),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  Map l = map_liked;
-                                  List<dynamic> k = [snapshot.data.id];
-                                  List<dynamic> a = [snapshot.data.name];
-                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
-                                    a.add(snapshot.data.genre[i]);
-                                  }
-                                  if (mounted) {
-                                    setState(() {
-                                      seen.add(snapshot.data.id);
-                                    });
-                                  }
-                                  l[snapshot.data.id.toString()] = a;
-                                  db.collection('users').doc(uid).update({
-                                    "seen" : FieldValue.arrayUnion(k),
-                                    'map_liked' : l,
-                                  });
-                                  changeMovie(genredropdownvalue, listdropdownvalue);
-                                },
-                                child: Text("LIKE?", style: TextStyle(color: Colors.white),),
-                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
-                              ),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(right:16.0, left: 16.0,top:4),
-                            child: ConstrainedBox(
-                              constraints: BoxConstraints.tightFor(width: 90, height: 40),
-                              child: ElevatedButton(
-                                onPressed: () {
                                   Map l = map_disliked;
                                   List<dynamic> a = [snapshot.data.name];
                                   List<dynamic> k = [snapshot.data.id];
@@ -623,6 +652,35 @@ class _MyMovieState extends State<MyMoviePage> {
                                 },
                                 child: Text("DISLIKE?", style: TextStyle(color: Colors.white),),
                                 style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.red)),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(right:16.0, left: 16.0,top:4),
+                            child: ConstrainedBox(
+                              constraints: BoxConstraints.tightFor(width: 90, height: 40),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  Map l = map_liked;
+                                  List<dynamic> k = [snapshot.data.id];
+                                  List<dynamic> a = [snapshot.data.name];
+                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
+                                    a.add(snapshot.data.genre[i]);
+                                  }
+                                  if (mounted) {
+                                    setState(() {
+                                      seen.add(snapshot.data.id);
+                                    });
+                                  }
+                                  l[snapshot.data.id.toString()] = a;
+                                  db.collection('users').doc(uid).update({
+                                    "seen" : FieldValue.arrayUnion(k),
+                                    'map_liked' : l,
+                                  });
+                                  changeMovie(genredropdownvalue, listdropdownvalue);
+                                },
+                                child: Text("LIKE?", style: TextStyle(color: Colors.white),),
+                                style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.blue)),
                               ),
                             ),
                           ),
