@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:movie_helper/models/movieModel.dart';
 import 'package:dio/dio.dart';
 import 'package:movie_helper/loading_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:movie_helper/navbar.dart';
 
 class viewMovie extends StatefulWidget {
 
@@ -89,18 +92,34 @@ class _viewMovieState extends State<viewMovie> {
     }
   }
 
-  Widget _launchStatus(BuildContext context, AsyncSnapshot<void> snapshot) {
-    if (snapshot.hasError) {
-      return Text('Error: ${snapshot.error}');
-    } else {
-      return const Text('');
-    }
-  }
-
+  FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore db = FirebaseFirestore.instance;
+  String email;
+  String uid;
+  Map map_liked;
+  Map map_disliked;
+  List<dynamic> watchlist;
+  bool done = false;
 
   @override
   void initState() {
     super.initState();
+    if (mounted) {
+      setState(() {
+        email = auth.currentUser.email.toString();
+        uid = auth.currentUser.uid.toString();
+      });
+      db.collection('users').doc(uid).get().then((value) {
+        if (mounted) {
+          setState(() {
+            map_liked = value['map_liked'];
+            map_disliked = value['map_disliked'];
+            watchlist = value['watchlist'];
+            done = true;
+          });
+        }
+      });
+    }
     movie = getMovie();
     providers = getProviders();
   }
@@ -112,6 +131,9 @@ class _viewMovieState extends State<viewMovie> {
         future: Future.wait([movie, providers]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.hasData) {
+            bool liked = false;
+            bool watch = false;
+            bool s = false;
             int size = snapshot.data[0].genre.length;
             List<String> g = new List.filled(size, "");
             for (int i = 0; i < size; i++) {
@@ -121,11 +143,28 @@ class _viewMovieState extends State<viewMovie> {
                 g[i] = snapshot.data[0].genre_list[snapshot.data[0].genre[i]] + "/";
               }
             }
+            if (watchlist.contains(snapshot.data[0].id)) {
+              watch = true;
+            }
+            if (map_liked.containsKey(snapshot.data[0].id.toString())) {
+              liked = true;
+            }
             size = snapshot.data[1].length;
             return Scaffold(
               appBar: AppBar(
                 centerTitle: true,
                 title: Text("View Movie"),
+                leading: IconButton(
+                  icon: IconButton(
+                    icon: Icon(Icons.arrow_back, size: 40, color: Colors.white,),
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => MyNavBar(page: 0,)));
+                    },
+                    padding: EdgeInsets.all(1.0),
+                  ),
+                ),
+               // leading: Icon(Icons.arrow_back_rounded, color: Colors.black,),
+
               ),
               body: Center(
                 child: Column(
@@ -194,6 +233,120 @@ class _viewMovieState extends State<viewMovie> {
                                 });
                               },
                             ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            liked == false ? Text("       Watchlist") : Text("     Watchlist"),
+                            liked == false ? Text("Currently Disliked") : Text("Currently Liked"),
+                          ],
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Padding(
+                                  padding: EdgeInsets.only(right: 30, top: 4, bottom: 4),
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints.tightFor(width: 90, height: 40),
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.white)),
+                                      child: watch == false ? Icon(Icons.add_circle_outline, color: Colors.black,) : Icon(Icons.check_circle, color: Colors.black,),
+                                      onPressed: () {
+                                        if (watch == false) {
+                                          if (mounted) {
+                                            setState(() {
+                                              watchlist.add(snapshot.data[0].id);
+                                            });
+                                          }
+                                          db.collection('users').doc(uid).update({
+                                            'watchlist' : watchlist,
+                                          });
+                                          if (mounted) {
+                                            setState(() {
+                                              watch = true;
+                                            });
+                                          }
+                                        } else {
+                                          if (mounted) {
+                                            setState(() {
+                                              watchlist.remove(snapshot.data[0].id);
+                                            });
+                                          }
+                                          db.collection('users').doc(uid).update({
+                                            'watchlist' : watchlist,
+                                          });
+                                          if (mounted) {
+                                            setState(() {
+                                              watch = false;
+                                            });
+                                          }
+                                        }
+                                      },
+                                    ),
+                                  ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(left: 25, top: 4, bottom: 4),
+                                child: ConstrainedBox(
+                                  constraints: BoxConstraints.tightFor(width: 90, height: 40),
+                                  child:  ElevatedButton(
+                                    style: liked == false ?  ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.red)) : ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                                    onPressed: () {
+                                      if (liked) {
+                                        //remove from liked, add to disliked
+                                        Map l = map_disliked;
+                                        List<dynamic> a = [snapshot.data[0].name];
+                                        for (int i = 0; i < snapshot.data[0].genre.length; i++) {
+                                          a.add(snapshot.data[0].genre[i]);
+                                        }
+                                        l[snapshot.data[0].id.toString()] = a;
+                                        db.collection('users').doc(uid).update({
+                                          'map_disliked' : l,
+                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            map_liked.remove(snapshot.data[0].id.toString());
+                                          });
+                                        }
+                                        db.collection('users').doc(uid).update({
+                                          'map_liked' : map_liked,
+                                        });
+                                        setState(() {
+                                          liked = false;
+                                        });
+
+                                      } else {
+                                        //remove from disliked, add to liked\
+                                        Map l = map_liked;
+                                        List<dynamic> a = [snapshot.data[0].name];
+                                        for (int i = 0; i < snapshot.data[0].genre.length; i++) {
+                                          a.add(snapshot.data[0].genre[i]);
+                                        }
+                                        l[snapshot.data[0].id.toString()] = a;
+                                        db.collection('users').doc(uid).update({
+                                          'map_liked' : l,
+                                        });
+                                        if (mounted) {
+                                          setState(() {
+                                            map_disliked.remove(snapshot.data[0].id.toString());
+                                          });
+                                        }
+                                        db.collection('users').doc(uid).update({
+                                          'map_disliked' : map_disliked,
+                                        });
+                                        setState(() {
+                                          liked = true;
+                                        });
+                                      }
+                                    },
+                                    child: liked == false ? Text("Move to liked", style: TextStyle(color: Colors.black),) : Text("Move to disliked",style: TextStyle(color: Colors.black)),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         Padding(

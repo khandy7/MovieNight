@@ -352,7 +352,7 @@ class _MovieListState extends State<MovieList> {
                             ),
                             child: ListTile(
                               onTap: () {
-                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewMovie(movie: movie)));
+                                Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => viewMovie(movie: movie)));
                               },
                               contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                               leading: Container(

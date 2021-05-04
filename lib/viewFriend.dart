@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:movie_helper/models/movieModel.dart';
 import 'package:dio/dio.dart';
-import 'package:movie_helper/viewMovie.dart';
+import 'package:movie_helper/viewFriendMovie.dart';
 
 
 class viewFriend extends StatefulWidget {
@@ -187,7 +187,7 @@ class _viewFriendState extends State<viewFriend> {
                         ),
                         child: ListTile(
                           onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewMovie(movie: new Movie(id: id))));
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) => viewFriendMovie(movie: new Movie(id: id))));
                           },
                           contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                           title: Text(name,style:TextStyle(fontSize: 20, color: Colors.black),),
