@@ -145,6 +145,8 @@ class _MyLoginState extends State<MyLoginPage> {
                                 "map_liked" : {},
                                 "map_disliked" : {},
                                 "seen" : [],
+                                "genreDropDown" : "Any",
+                                "listDropDown" : "Liked",
                               },SetOptions(merge: true)).then((_) {
                                 print("Successfully created user doc!");
                                 ScaffoldMessenger.of(context).removeCurrentSnackBar();

@@ -5,6 +5,7 @@ class Movie {
   int id;
   String pic;
   List<dynamic> watch;
+  int ret;
   Map<int, String> genre_list = {
     28:"Action", 12:"Adventure", 16:"Animation",
     35:"Comedy", 80:"Crime", 99:"Documentary", 18:"Drama", 10751:"Family", 14:"Fantasy",
@@ -12,7 +13,7 @@ class Movie {
     10770:"TV Movie", 53:"Thriller", 10752:"War", 37:"Western"
   };
 
-  Movie({this.name, this.desc, this.genre, this.id, this.pic, this.watch});
+  Movie({this.name, this.desc, this.genre, this.id, this.pic, this.watch, this.ret});
 
   factory Movie.fromJson(Map<String, dynamic> json) {
     if (json['poster_path'] == null) {

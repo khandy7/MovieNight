@@ -5,7 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/models/movieModel.dart';
+import 'package:movie_helper/loading_screen.dart';
 import 'package:dio/dio.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 
 //BEGINNING OF MOVIE PAGE WIDGET
@@ -22,6 +24,8 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
   String email;
   String uid;
   Future<Movie> movie;
+  Future<List<String>> providers;
+  Future<void> _launched;
 
   Dio dio = Dio();
 
@@ -51,6 +55,12 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
   String genreMovieWithPage = '&page=';
   int genreMoviesIndex = 0;
   int genreMoviesPage = 1;
+
+  String base = "https://api.themoviedb.org/3/movie/";
+  String watchProviders = "/watch/providers";
+  String apiKey = "?api_key=211ff81d2853a542be703d3104384047&language=en-US";
+  String link;
+  bool done = false;
 
   Map map_liked;
   Map map_disliked;
@@ -105,6 +115,19 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
     return false;
   }
 
+  Future<void> _launchInBrowser(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: false,
+        forceWebView: false,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch $url';
+    }
+  }
+
   //WORKING HERE LAST, NOT SURE IF IT WORKS FULLY
   Future<Movie> getMovie(String genre, String list) async {
     if (list == "Popular") {
@@ -145,6 +168,10 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         id = response.data['results'][popularIndex]['id'];
         genres = response.data['results'][popularIndex]['genre_ids'];
       }
+      providers = getProviders(response.data['results'][popularIndex]['id']);
+      setState(() {
+        done = true;
+      });
       return Movie.fromJson(response.data['results'][popularIndex]);
 
     } else if (list == "Top Rated") {
@@ -186,6 +213,10 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         id = response.data['results'][topRatedIndex]['id'];
         genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
+      providers = getProviders(response.data['results'][topRatedIndex]['id']);
+      setState(() {
+        done = true;
+      });
       return Movie.fromJson(response.data['results'][topRatedIndex]);
 
     } else if (list == "Upcoming") {
@@ -226,6 +257,10 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         id = response.data['results'][upcomingIndex]['id'];
         genres = response.data['results'][upcomingIndex]['genre_ids'];
       }
+      providers = getProviders(response.data['results'][upcomingIndex]['id']);
+      setState(() {
+        done = true;
+      });
       return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
@@ -267,6 +302,10 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         id = response.data['results'][nowPlayingIndex]['id'];
         genres = response.data['results'][nowPlayingIndex]['genre_ids'];
       }
+      providers = getProviders(response.data['results'][nowPlayingIndex]['id']);
+      setState(() {
+        done = true;
+      });
       return Movie.fromJson(response.data['results'][nowPlayingIndex]);
 
     } else if (list == "Any"){
@@ -352,8 +391,16 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         }
       }
       if (genre == "Any") {
+        providers = getProviders(response.data['results'][allMoviesIndex]['id']);
+        setState(() {
+          done = true;
+        });
         return Movie.fromJson(response.data['results'][allMoviesIndex]);
       } else {
+        providers = getProviders(response.data['results'][genreMoviesIndex]['id']);
+        setState(() {
+          done = true;
+        });
         return Movie.fromJson(response.data['results'][genreMoviesIndex]);
       }
     } else {
@@ -433,6 +480,45 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         'map_disliked' : l,
       });
       changeMovie(genredropdownvalue, listdropdownvalue);
+    }
+  }
+
+  Future<List<String>> getProviders(int id) async {
+    List<String> namesRent = [];
+    List<String> namesBuy = [];
+    List<String> namesFlatrate = [];
+    var response = await dio.get(base + id.toString() + watchProviders + apiKey);
+    if (response.statusCode == 200) {
+      if (response.data['results'].length == 0 || response.data['results']["US"] == null) {
+        return namesBuy;
+      }
+      List<dynamic> rent = response.data['results']["US"]['rent'];
+      List<dynamic> buy = response.data['results']["US"]['buy'];
+      List<dynamic> flatrate = response.data['results']["US"]['flatrate'];
+      if (rent != null) {
+        for (int i = 0; i < rent.length; i++) {
+          namesRent.add(rent[i]['provider_name']);
+        }
+      }
+      if (buy != null) {
+        for (int i = 0; i < buy.length; i++) {
+          namesBuy.add(buy[i]['provider_name']);
+        }
+      }
+      if (flatrate != null) {
+        for (int i = 0; i < flatrate.length; i++) {
+          namesFlatrate.add(flatrate[i]['provider_name']);
+        }
+      }
+
+      if (mounted) {
+        setState(() {
+          link = response.data["results"]["US"]["link"].toString();
+        });
+      }
+      List<String> names = new List.from(namesRent)..addAll(namesBuy)..addAll(namesFlatrate);
+      names = names.toSet().toList();
+      return names;
     }
   }
 
@@ -529,65 +615,69 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                 ),
               ],
             ),
-            FutureBuilder(
-              future: movie,
+            done == false ? CircularProgressIndicator() : Expanded(child: FutureBuilder(
+              future: Future.wait([movie, providers]),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  int size = snapshot.data.genre.length;
+                  int size = snapshot.data[0].genre.length;
                   List<String> g = new List.filled(size, "");
                   for (int i = 0; i < size; i++) {
                     if (i == size - 1) {
-                      g[i] = snapshot.data.genre_list[snapshot.data.genre[i]];
+                      g[i] = snapshot.data[0].genre_list[snapshot.data[0].genre[i]];
                     } else {
-                      g[i] = snapshot.data.genre_list[snapshot.data.genre[i]] + "/";
+                      g[i] = snapshot.data[0].genre_list[snapshot.data[0].genre[i]] + "/";
                     }
                   }
+                  size = snapshot.data[1].length;
                   return Column(
                     children: [
-                      snapshot.data.pic == null ? Draggable(
-                        child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,),
+                      snapshot.data[0].pic == null ? Draggable(
+                        child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
                         feedback: Material(
                           type: MaterialType.transparency,
-                          child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,),
+                          child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
                         ),
                         childWhenDragging: Container(height: 350, width: 250,),
-                        onDragEnd: (details) => onDragEnd(details, snapshot.data),
+                        onDragEnd: (details) => onDragEnd(details, snapshot.data[0]),
                       ) :
                       Draggable(
-                          child: Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                          child: Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,),
                           feedback: Material(
                             type: MaterialType.transparency,
-                            child: Image(image: NetworkImage(picBase + snapshot.data.pic), width: 250, height: 350,),
+                            child: Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,),
                           ),
-                        childWhenDragging: Container(height: 350, width: 250,),
-                        onDragEnd: (details) => onDragEnd(details, snapshot.data),
+                        childWhenDragging: Container(height: 325, width: 225,),
+                        onDragEnd: (details) => onDragEnd(details, snapshot.data[0]),
                       ),
                       Padding(
                         padding: EdgeInsets.all(8.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                           Flexible( child: Text(snapshot.data.name,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),),
+                           Flexible( child: Text(snapshot.data[0].name,style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),overflow: TextOverflow.ellipsis,),),
                           ],
                         ),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
-                        child:  Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Row(
-                              children: g.map((item) => new Text(item)).toList(),
+                        child: FittedBox(
+                            fit: BoxFit.fill,
+                            child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
-                            ),
-                          ],
-                        ),
+                              children: [
+                                //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
+                                Row(
+                                  children: g.map((item) => new Text(item)).toList(),
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                ),
+                              ],
+                            )),
                       ),
                       Padding(
                         padding: EdgeInsets.only(bottom: 8.0),
                         child: Container(
                           width: 400,
-                          height: 75,
+                          height: 50,
                           child: ElevatedButton(
                             style: ButtonStyle(backgroundColor: MaterialStateProperty.resolveWith<Color>(
                                   (Set<MaterialState> states) {
@@ -596,7 +686,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                             ),
                                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)))
                             ),
-                            child: Text(snapshot.data.desc,softWrap: true, overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black,),),
+                            child: Text(snapshot.data[0].desc,softWrap: true, overflow: TextOverflow.fade, style: TextStyle(fontWeight: FontWeight.normal,color: Colors.black,),),
                             onPressed: () {
                               showDialog(context: context, builder: (BuildContext context) {
                                 return new AlertDialog(
@@ -612,7 +702,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                                     mainAxisSize: MainAxisSize.min,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(snapshot.data.desc,softWrap: true),
+                                      Text(snapshot.data[0].desc,softWrap: true),
                                     ],
                                   ),
 
@@ -633,17 +723,17 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                               child: ElevatedButton(
                                 onPressed: () {
                                   Map l = map_disliked;
-                                  List<dynamic> a = [snapshot.data.name];
-                                  List<dynamic> k = [snapshot.data.id];
-                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
-                                    a.add(snapshot.data.genre[i]);
+                                  List<dynamic> a = [snapshot.data[0].name];
+                                  List<dynamic> k = [snapshot.data[0].id];
+                                  for (int i = 0; i < snapshot.data[0].genre.length; i++) {
+                                    a.add(snapshot.data[0].genre[i]);
                                   }
                                   if (mounted) {
                                     setState(() {
-                                      seen.add(snapshot.data.id);
+                                      seen.add(snapshot.data[0].id);
                                     });
                                   }
-                                  l[snapshot.data.id.toString()] = a;
+                                  l[snapshot.data[0].id.toString()] = a;
                                   db.collection('users').doc(uid).update({
                                     "seen" : FieldValue.arrayUnion(k),
                                     'map_disliked' : l,
@@ -662,17 +752,17 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                               child: ElevatedButton(
                                 onPressed: () {
                                   Map l = map_liked;
-                                  List<dynamic> k = [snapshot.data.id];
-                                  List<dynamic> a = [snapshot.data.name];
-                                  for (int i = 0; i < snapshot.data.genre.length; i++) {
-                                    a.add(snapshot.data.genre[i]);
+                                  List<dynamic> k = [snapshot.data[0].id];
+                                  List<dynamic> a = [snapshot.data[0].name];
+                                  for (int i = 0; i < snapshot.data[0].genre.length; i++) {
+                                    a.add(snapshot.data[0].genre[i]);
                                   }
                                   if (mounted) {
                                     setState(() {
-                                      seen.add(snapshot.data.id);
+                                      seen.add(snapshot.data[0].id);
                                     });
                                   }
-                                  l[snapshot.data.id.toString()] = a;
+                                  l[snapshot.data[0].id.toString()] = a;
                                   db.collection('users').doc(uid).update({
                                     "seen" : FieldValue.arrayUnion(k),
                                     'map_liked' : l,
@@ -686,6 +776,42 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                           ),
                         ],
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom:4.0, top:6.0),
+                        child: size == 0 ? Text("Not available in the US", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),) : Text("Available at:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
+                      ),
+                      size == 0 ? Text("") : Expanded(
+                        child: SizedBox(
+                          height: 200.0,
+                          child: CustomScrollView(
+                            slivers: <Widget>[
+                              SliverGrid(
+                                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                                  maxCrossAxisExtent: 200.0,
+                                  mainAxisSpacing: 15.0,
+                                  crossAxisSpacing: 10.0,
+                                  childAspectRatio: 4.0,
+                                ),
+                                delegate: SliverChildBuilderDelegate(
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                      alignment: Alignment.center,
+                                      color: Colors.white,
+                                      child: GestureDetector(
+                                        child: Text(snapshot.data[1][index]),
+                                        onTap: () {
+                                          _launched = _launchInBrowser(link);
+                                        },
+                                      ),
+                                    );
+                                  },
+                                  childCount: size,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   );
                 } else if (snapshot.hasError) {
@@ -694,7 +820,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                   return CircularProgressIndicator();
                 }
               },
-            ),
+            )),
           ],
         ),
       ),

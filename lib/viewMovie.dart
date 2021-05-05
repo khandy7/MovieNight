@@ -171,7 +171,7 @@ class _viewMovieState extends State<viewMovie> {
                       children: [
                         Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: snapshot.data[0].pic == null ? Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 250, height: 350,) : Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 300, height: 400,),
+                          child: snapshot.data[0].pic == null ? Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,) : Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,),
                         ),
                         Padding(
                           padding: EdgeInsets.all(8.0),
@@ -185,7 +185,9 @@ class _viewMovieState extends State<viewMovie> {
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 8.0),
-                          child:  Row(
+                          child: FittedBox(
+                            fit: BoxFit.fill,
+                              child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
@@ -194,7 +196,7 @@ class _viewMovieState extends State<viewMovie> {
                                 mainAxisAlignment: MainAxisAlignment.center,
                               ),
                             ],
-                          ),
+                          )),
                         ),
                         Padding(
                           padding: EdgeInsets.only(bottom: 8.0),

@@ -224,6 +224,8 @@ class _MovieListState extends State<MovieList> {
                 watchlist = value['watchlist'];
                 combo.addAll(map_liked);
                 combo.addAll(map_disliked);
+                genredropdownvalue = value['genreDropDown'];
+                listdropdownvalue = value['listDropDown'];
                 movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
               });
             }
@@ -265,6 +267,9 @@ class _MovieListState extends State<MovieList> {
                                 genredropdownvalue = newValue;
                                 movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
                               });
+                              db.collection('users').doc(uid).update({
+                                "genreDropDown" : genredropdownvalue,
+                              });
                             }
                           },
                           items: <String>["Any","Action", "Adventure", "Animation",
@@ -292,6 +297,9 @@ class _MovieListState extends State<MovieList> {
                               setState(() {
                                 listdropdownvalue = newValue;
                                 movies = getMovies(combo, genredropdownvalue, listdropdownvalue);
+                              });
+                              db.collection('users').doc(uid).update({
+                                "listDropDown" : listdropdownvalue,
                               });
                             }
                           },
@@ -688,16 +696,18 @@ class _MovieOfDayState extends State<MovieOfDay> {
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
-                  child:  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
-                      Row(
-                        children: g.map((item) => new Text(item)).toList(),
+                  child: FittedBox(
+                      fit: BoxFit.fill,
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
-                      ),
-                    ],
-                  ),
+                        children: [
+                          //THIS WIDGET WILL CONTAIN THE DAILY MOVIES TITLE GENRES AND DESCRIPTION
+                          Row(
+                            children: g.map((item) => new Text(item)).toList(),
+                            mainAxisAlignment: MainAxisAlignment.center,
+                          ),
+                        ],
+                      )),
                 ),
                 Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
@@ -808,6 +818,10 @@ class _MovieOfDayState extends State<MovieOfDay> {
                   Padding(
                     padding: EdgeInsets.only(top: 240, right: 20, left: 20),
                     child: Text("You have seen all the trending movies for the day. Come back tomorrow for more!", style: TextStyle(fontSize: 20),),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top: 260, right: 20, left: 20),
+                    child: Text("Swipe down to view all your movies!", style: TextStyle(fontSize: 15),),
                   ),
                 ],
               ),
