@@ -5,9 +5,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:movie_helper/models/movieModel.dart';
-import 'package:movie_helper/loading_screen.dart';
 import 'package:dio/dio.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:movie_helper/widgets/helperFunctions.dart';
 
 
 //BEGINNING OF MOVIE PAGE WIDGET
@@ -91,40 +91,46 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
     }
   }
 
-  bool checkIfSeen(int id) {
-    if (id == null) {
-      return false;
-    }
-    if (seen.contains(id)) {
-      return true;
-    } else {
-      return false;
-    }
-  }
+  Future<List<String>> getProviders(int id) async {
+    String base = "https://api.themoviedb.org/3/movie/";
+    String watchProviders = "/watch/providers";
+    String apiKey = "?api_key=211ff81d2853a542be703d3104384047&language=en-US";
 
-  bool checkIfGenre(List<dynamic> genres, String genre) {
-    if (genre == "Any") {
-      return true;
-    } else {
-      for (int i = 0; i < genres.length; i++) {
-        if (genre_list[genre] == genres[i]) {
-          return true;
+    List<String> namesRent = [];
+    List<String> namesBuy = [];
+    List<String> namesFlatrate = [];
+    var response = await dio.get(base + id.toString() + watchProviders + apiKey);
+    if (response.statusCode == 200) {
+      if (response.data['results'].length == 0 || response.data['results']["US"] == null) {
+        return namesBuy;
+      }
+      List<dynamic> rent = response.data['results']["US"]['rent'];
+      List<dynamic> buy = response.data['results']["US"]['buy'];
+      List<dynamic> flatrate = response.data['results']["US"]['flatrate'];
+      if (rent != null) {
+        for (int i = 0; i < rent.length; i++) {
+          namesRent.add(rent[i]['provider_name']);
         }
       }
-    }
-    return false;
-  }
+      if (buy != null) {
+        for (int i = 0; i < buy.length; i++) {
+          namesBuy.add(buy[i]['provider_name']);
+        }
+      }
+      if (flatrate != null) {
+        for (int i = 0; i < flatrate.length; i++) {
+          namesFlatrate.add(flatrate[i]['provider_name']);
+        }
+      }
 
-  Future<void> _launchInBrowser(String url) async {
-    if (await canLaunch(url)) {
-      await launch(
-        url,
-        forceSafariVC: false,
-        forceWebView: false,
-        headers: <String, String>{'my_header_key': 'my_header_value'},
-      );
-    } else {
-      throw 'Could not launch $url';
+      if (mounted) {
+        setState(() {
+          link = response.data["results"]["US"]["link"].toString();
+        });
+      }
+      List<String> names = new List.from(namesRent)..addAll(namesBuy)..addAll(namesFlatrate);
+      names = names.toSet().toList();
+      return names;
     }
   }
 
@@ -147,7 +153,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
       if (popularPage >= response.data['total_pages']) {
         throw Exception("Out of pages");
       }
-      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
+      while (checkIfSeen(id, seen) || !checkIfGenre(genres, genre, genre_list)) {
         if (mounted) {
           setState(() {
             popularIndex++;
@@ -192,7 +198,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
       int id = response.data['results'][topRatedIndex]['id'];
       List<dynamic> genres = response.data['results'][topRatedIndex]['genre_ids'];
 
-      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
+      while (checkIfSeen(id, seen) || !checkIfGenre(genres, genre, genre_list)) {
         if (mounted) {
           setState(() {
             topRatedIndex++;
@@ -236,7 +242,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
       if (upcomingPage >= response.data['total_pages']) {
         throw Exception("Out of pages");
       }
-      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
+      while (checkIfSeen(id, seen) || !checkIfGenre(genres, genre, genre_list)) {
         if (mounted) {
           setState(() {
             upcomingIndex++;
@@ -281,7 +287,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
       }
       List<dynamic> genres = response.data['results'][nowPlayingIndex]['genre_ids'];
 
-      while (checkIfSeen(id) || !checkIfGenre(genres, genre)) {
+      while (checkIfSeen(id, seen) || !checkIfGenre(genres, genre, genre_list)) {
         if (mounted) {
           setState(() {
             nowPlayingIndex++;
@@ -347,7 +353,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         genres = response.data['results'][genreMoviesIndex]['genre_ids'];
       }
 
-      while(checkIfSeen(id) || !checkIfGenre(genres, genre)) {
+      while(checkIfSeen(id, seen) || !checkIfGenre(genres, genre, genre_list)) {
         if (genre == "Any") {
           if (mounted) {
             setState(() {
@@ -483,45 +489,6 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
     }
   }
 
-  Future<List<String>> getProviders(int id) async {
-    List<String> namesRent = [];
-    List<String> namesBuy = [];
-    List<String> namesFlatrate = [];
-    var response = await dio.get(base + id.toString() + watchProviders + apiKey);
-    if (response.statusCode == 200) {
-      if (response.data['results'].length == 0 || response.data['results']["US"] == null) {
-        return namesBuy;
-      }
-      List<dynamic> rent = response.data['results']["US"]['rent'];
-      List<dynamic> buy = response.data['results']["US"]['buy'];
-      List<dynamic> flatrate = response.data['results']["US"]['flatrate'];
-      if (rent != null) {
-        for (int i = 0; i < rent.length; i++) {
-          namesRent.add(rent[i]['provider_name']);
-        }
-      }
-      if (buy != null) {
-        for (int i = 0; i < buy.length; i++) {
-          namesBuy.add(buy[i]['provider_name']);
-        }
-      }
-      if (flatrate != null) {
-        for (int i = 0; i < flatrate.length; i++) {
-          namesFlatrate.add(flatrate[i]['provider_name']);
-        }
-      }
-
-      if (mounted) {
-        setState(() {
-          link = response.data["results"]["US"]["link"].toString();
-        });
-      }
-      List<String> names = new List.from(namesRent)..addAll(namesBuy)..addAll(namesFlatrate);
-      names = names.toSet().toList();
-      return names;
-    }
-  }
-
 
   @override
   void initState() {
@@ -620,6 +587,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   int size = snapshot.data[0].genre.length;
+                  //get genres from the genre ids
                   List<String> g = new List.filled(size, "");
                   for (int i = 0; i < size; i++) {
                     if (i == size - 1) {
@@ -631,20 +599,11 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                   size = snapshot.data[1].length;
                   return Column(
                     children: [
-                      snapshot.data[0].pic == null ? Draggable(
-                        child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
-                        feedback: Material(
-                          type: MaterialType.transparency,
-                          child: Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
-                        ),
-                        childWhenDragging: Container(height: 350, width: 250,),
-                        onDragEnd: (details) => onDragEnd(details, snapshot.data[0]),
-                      ) :
                       Draggable(
-                          child: Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,),
+                          child: snapshot.data[0].pic != null ? Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,) : Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
                           feedback: Material(
                             type: MaterialType.transparency,
-                            child: Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,),
+                            child: snapshot.data[0].pic != null ? Image(image: NetworkImage(picBase + snapshot.data[0].pic), width: 225, height: 325,) : Image(image: NetworkImage("https://d994l96tlvogv.cloudfront.net/uploads/film/poster/poster-image-coming-soon-placeholder-no-logo-500-x-740_23991.png"), width: 225, height: 325,),
                           ),
                         childWhenDragging: Container(height: 325, width: 225,),
                         onDragEnd: (details) => onDragEnd(details, snapshot.data[0]),
@@ -780,38 +739,7 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
                         padding: EdgeInsets.only(bottom:4.0, top:6.0),
                         child: size == 0 ? Text("Not available in the US", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),) : Text("Available at:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
                       ),
-                      size == 0 ? Text("") : Expanded(
-                        child: SizedBox(
-                          height: 200.0,
-                          child: CustomScrollView(
-                            slivers: <Widget>[
-                              SliverGrid(
-                                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 200.0,
-                                  mainAxisSpacing: 15.0,
-                                  crossAxisSpacing: 10.0,
-                                  childAspectRatio: 4.0,
-                                ),
-                                delegate: SliverChildBuilderDelegate(
-                                      (BuildContext context, int index) {
-                                    return Container(
-                                      alignment: Alignment.center,
-                                      color: Colors.white,
-                                      child: GestureDetector(
-                                        child: Text(snapshot.data[1][index]),
-                                        onTap: () {
-                                          _launched = _launchInBrowser(link);
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  childCount: size,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      size == 0 ? Text("") : getWatchProviders(snapshot.data[1], link, size),
                     ],
                   );
                 } else if (snapshot.hasError) {

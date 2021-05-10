@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:movie_helper/loading_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:movie_helper/navbar.dart';
+import 'package:movie_helper/widgets/helperFunctions.dart';
 
 class viewMovie extends StatefulWidget {
 
@@ -355,38 +356,7 @@ class _viewMovieState extends State<viewMovie> {
                           padding: EdgeInsets.only(bottom:4.0, top:6.0),
                           child: size == 0 ? Text("Not available in the US", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),) : Text("Available at:", style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),),
                         ),
-                        size == 0 ? Text("") : Expanded(
-                          child: SizedBox(
-                            height: 200.0,
-                            child: CustomScrollView(
-                              slivers: <Widget>[
-                                SliverGrid(
-                                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                                    maxCrossAxisExtent: 200.0,
-                                    mainAxisSpacing: 15.0,
-                                    crossAxisSpacing: 10.0,
-                                    childAspectRatio: 4.0,
-                                  ),
-                                  delegate: SliverChildBuilderDelegate(
-                                        (BuildContext context, int index) {
-                                      return Container(
-                                        alignment: Alignment.center,
-                                        color: Colors.white,
-                                        child: GestureDetector(
-                                          child: Text(snapshot.data[1][index]),
-                                          onTap: () {
-                                            _launched = _launchInBrowser(link);
-                                          },
-                                        ),
-                                      );
-                                    },
-                                    childCount: size,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
+                        size == 0 ? Text("") : getWatchProviders(snapshot.data[1], link, size),
                       ],
                 ),
               ),
