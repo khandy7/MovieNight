@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/kylehandy/CSCI567/Project/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-sr/values-sr.xml",
+            "outputFile": "/Users/kylehandy/CSCI567/MovieNight/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-sr/values-sr.xml",
             "map": [
                 {
                     "source": "/Users/kylehandy/.gradle/caches/transforms-2/files-2.1/94e81a1358b6f9b928d7d50b70ec137b/jetified-play-services-basement-17.1.0/res/values-sr/values.xml",

@@ -41,10 +41,12 @@ class _MyHomePageState extends State<MyHomePage> {
             uid = auth.currentUser.uid.toString();
           });
           db.collection('users').doc(uid).get().then((value) {
-            setState(() {
-              trendingIndex = value['trendingIndex'];
-              t = value["lastLogin"];
-            });
+            if (mounted){
+              setState(() {
+                trendingIndex = value['trendingIndex'];
+                t = value["lastLogin"];
+              });
+            }
             Timestamp n = Timestamp.now();
             if ((n.seconds - t.seconds) >= 86400) {
               db.collection('users').doc(uid).update({
