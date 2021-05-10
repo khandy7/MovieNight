@@ -1,18 +1,18 @@
 -- Merging decision tree log ---
 manifest
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-MERGED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
-MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
-MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
-MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
-MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+MERGED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight copy/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-14:12
+MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-22:12
+MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight copy/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-7:12
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:2:1-15:12
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:2:1-26:12
@@ -58,37 +58,37 @@ MERGED from [androidx.documentfile:documentfile:1.0.0] /Users/kylehandy/.gradle/
 MERGED from [androidx.print:print:1.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/658d29ebd3d5fbfe571528f50a047e26/print-1.0.0/AndroidManifest.xml:17:1-22:12
 MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8d507950016cad98873b4383e6c1beaf/protolite-well-known-types-17.1.1/AndroidManifest.xml:2:1-11:12
 MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:2:1-13:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml:1:1-7:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml:1:1-7:12
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml:1:1-7:12
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml:1:1-7:12
 	package
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:2:5-39
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:2:5-39
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 	android:versionName
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 	android:versionCode
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:1-47:12
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:1-47:12
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 	xmlns:android
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:1:11-69
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:1:11-69
 application
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:8:5-46:19
-MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
-MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
-MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
-MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:8:5-46:19
+MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-12:19
+MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
+MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:10:5-20:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-13:19
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:16:5-24:19
@@ -134,73 +134,73 @@ MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] /Users/kyle
 	android:appComponentFactory
 		ADDED from [androidx.core:core:1.1.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/3e26ef26d15f163a2f1a31a2130a0254/core-1.1.0/AndroidManifest.xml:24:18-86
 	android:label
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:10:9-36
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:10:9-36
 	android:icon
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:11:9-43
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:11:9-43
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:9:9-57
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:9:9-57
 activity#com.example.movie_helper.MainActivity
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:12:9-40:20
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:12:9-40:20
 	android:launchMode
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:14:13-43
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:14:13-43
 	android:hardwareAccelerated
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:17:13-47
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:17:13-47
 	android:windowSoftInputMode
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:18:13-55
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:18:13-55
 	android:configChanges
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:16:13-163
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:16:13-163
 	android:theme
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:15:13-47
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:15:13-47
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:13:13-41
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:13:13-41
 meta-data#io.flutter.embedding.android.NormalTheme
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:23:13-26:17
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:23:13-26:17
 	android:resource
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:25:15-52
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:25:15-52
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:24:15-70
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:24:15-70
 meta-data#io.flutter.embedding.android.SplashScreenDrawable
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:32:13-35:17
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:32:13-35:17
 	android:resource
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:34:15-61
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:34:15-61
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:33:15-79
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:33:15-79
 intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:36:13-39:29
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:36:13-39:29
 action#android.intent.action.MAIN
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:37:17-68
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:37:17-68
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:37:25-66
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:37:25-66
 category#android.intent.category.LAUNCHER
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:38:17-76
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:38:17-76
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:38:27-74
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:38:27-74
 meta-data#flutterEmbedding
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:43:9-45:33
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:43:9-45:33
 	android:value
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:45:13-30
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:45:13-30
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml:44:13-44
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml:44:13-44
 uses-sdk
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight copy/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:shared_preferences] /Users/kylehandy/CSCI567/MovieNight copy/build/shared_preferences/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight copy/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:flutter_plugin_android_lifecycle] /Users/kylehandy/CSCI567/MovieNight copy/build/flutter_plugin_android_lifecycle/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:5:5-44
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [androidx.multidex:multidex:2.0.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/45098f1315e14f341f88fe1c6e02f648/multidex-2.0.0/AndroidManifest.xml:20:5-43
 MERGED from [com.google.firebase:firebase-analytics:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/b31f419ed1bddb3bebdea48541e2ff88/firebase-analytics-18.0.2/AndroidManifest.xml:5:5-44
@@ -291,16 +291,16 @@ MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kyleh
 MERGED from [com.google.firebase:protolite-well-known-types:17.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8d507950016cad98873b4383e6c1beaf/protolite-well-known-types-17.1.1/AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:7:5-9:41
 MERGED from [io.grpc:grpc-android:1.28.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/c40b3a1ade295bee345fced2eee0a115/grpc-android-1.28.0/AndroidManifest.xml:7:5-9:41
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
-INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
+INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 	android:targetSdkVersion
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 	android:minSdkVersion
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/main/AndroidManifest.xml
-		INJECTED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml
 uses-permission#android.permission.INTERNET
-ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml:6:5-66
+ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml:6:5-66
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:14:5-67
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:14:5-67
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:23:5-67
@@ -318,15 +318,15 @@ MERGED from [com.google.android.gms:play-services-measurement-impl:18.0.2] /User
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/51a0bba0ccdfd068b33aa354c7033d9b/play-services-measurement-sdk-api-18.0.2/AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:18.0.2] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/51a0bba0ccdfd068b33aa354c7033d9b/play-services-measurement-sdk-api-18.0.2/AndroidManifest.xml:23:5-67
 	android:name
-		ADDED from /Users/kylehandy/CSCI567/MovieNight/android/app/src/debug/AndroidManifest.xml:6:22-64
+		ADDED from /Users/kylehandy/CSCI567/MovieNight copy/android/app/src/debug/AndroidManifest.xml:6:22-64
 service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
-MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-12:19
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:17:9-23:19
 MERGED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:17:9-23:19
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:74:9-80:19
@@ -346,63 +346,63 @@ MERGED from [com.google.firebase:firebase-common:19.5.0] /Users/kylehandy/.gradl
 	android:directBootAware
 		ADDED from [com.google.firebase:firebase-common:19.5.0] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/82709d9b440fbbcad29852b6aea1cf11/jetified-firebase-common-19.5.0/AndroidManifest.xml:35:13-43
 	android:name
-		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
+		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:8:18-89
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
-ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+		ADDED from [:firebase_auth] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_auth/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
 activity#io.flutter.plugins.urllauncher.WebViewActivity
-ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
+ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:8:9-11:74
 	android:exported
-		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:10:13-37
 	android:theme
-		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:11:13-71
 	android:name
-		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
+		ADDED from [:url_launcher] /Users/kylehandy/CSCI567/MovieNight copy/build/url_launcher/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-74
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
-ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
+ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:5-80
 	android:name
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-77
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:7:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
-ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
+ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:5-81
 	android:name
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:8:22-78
 provider#io.flutter.plugins.imagepicker.ImagePickerFileProvider
-ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
+ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:11:9-19:20
 	android:grantUriPermissions
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:15:13-47
 	android:authorities
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:13:13-74
 	android:exported
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:14:13-37
 	android:name
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:12:13-82
 meta-data#android.support.FILE_PROVIDER_PATHS
-ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-18:75
+ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:16:13-18:75
 	android:resource
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-72
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:18:17-72
 	android:name
-		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-67
+		ADDED from [:image_picker] /Users/kylehandy/CSCI567/MovieNight copy/build/image_picker/intermediates/library_manifest/debug/AndroidManifest.xml:17:17-67
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.firestore.FlutterFirebaseFirestoreRegistrar
-ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
+		ADDED from [:cloud_firestore] /Users/kylehandy/CSCI567/MovieNight copy/build/cloud_firestore/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-134
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.storage.FlutterFirebaseAppRegistrar
-ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+		ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-126
+		ADDED from [:firebase_storage] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_storage/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-126
 meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
-ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
+ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:9:13-11:85
 	android:value
-		ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
+		ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:11:17-82
 	android:name
-		ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
+		ADDED from [:firebase_core] /Users/kylehandy/CSCI567/MovieNight copy/build/firebase_core/intermediates/library_manifest/debug/AndroidManifest.xml:10:17-124
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.firebase:firebase-firestore:22.1.1] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/8f5f7860f87bc99c17cef19a363e41f5/jetified-firebase-firestore-22.1.1/AndroidManifest.xml:13:5-79
 MERGED from [com.google.firebase:firebase-auth:20.0.3] /Users/kylehandy/.gradle/caches/transforms-2/files-2.1/394b176cbad6ef4b448f0a8f9cc2b8b9/jetified-firebase-auth-20.0.3/AndroidManifest.xml:24:5-79

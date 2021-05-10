@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "/Users/kylehandy/CSCI567/MovieNight/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-lv/values-lv.xml",
+            "outputFile": "/Users/kylehandy/CSCI567/MovieNight copy/build/app/intermediates/incremental/mergeDebugResources/merged.dir/values-lv/values-lv.xml",
             "map": [
                 {
                     "source": "/Users/kylehandy/.gradle/caches/transforms-2/files-2.1/97461efba6c5e9e0983cc52e8129f2d5/play-services-base-17.1.0/res/values-lv/values.xml",
