@@ -175,9 +175,11 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         genres = response.data['results'][popularIndex]['genre_ids'];
       }
       providers = getProviders(response.data['results'][popularIndex]['id']);
-      setState(() {
-        done = true;
-      });
+      if (mounted){
+        setState(() {
+          done = true;
+        });
+      }
       return Movie.fromJson(response.data['results'][popularIndex]);
 
     } else if (list == "Top Rated") {
@@ -220,9 +222,11 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         genres = response.data['results'][topRatedIndex]['genre_ids'];
       }
       providers = getProviders(response.data['results'][topRatedIndex]['id']);
-      setState(() {
-        done = true;
-      });
+      if (mounted) {
+        setState(() {
+          done = true;
+        });
+      }
       return Movie.fromJson(response.data['results'][topRatedIndex]);
 
     } else if (list == "Upcoming") {
@@ -264,9 +268,11 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         genres = response.data['results'][upcomingIndex]['genre_ids'];
       }
       providers = getProviders(response.data['results'][upcomingIndex]['id']);
-      setState(() {
-        done = true;
-      });
+      if (mounted) {
+        setState(() {
+          done = true;
+        });
+      }
       return Movie.fromJson(response.data['results'][upcomingIndex]);
 
     } else if (list == "Now Playing") {
@@ -309,9 +315,11 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
         genres = response.data['results'][nowPlayingIndex]['genre_ids'];
       }
       providers = getProviders(response.data['results'][nowPlayingIndex]['id']);
-      setState(() {
-        done = true;
-      });
+      if (mounted) {
+        setState(() {
+          done = true;
+        });
+      }
       return Movie.fromJson(response.data['results'][nowPlayingIndex]);
 
     } else if (list == "Any"){
@@ -398,15 +406,19 @@ class _MyMovieState extends State<MyMoviePage> with SingleTickerProviderStateMix
       }
       if (genre == "Any") {
         providers = getProviders(response.data['results'][allMoviesIndex]['id']);
-        setState(() {
-          done = true;
-        });
+        if (mounted) {
+          setState(() {
+            done = true;
+          });
+        }
         return Movie.fromJson(response.data['results'][allMoviesIndex]);
       } else {
         providers = getProviders(response.data['results'][genreMoviesIndex]['id']);
-        setState(() {
-          done = true;
-        });
+        if (mounted) {
+          setState(() {
+            done = true;
+          });
+        }
         return Movie.fromJson(response.data['results'][genreMoviesIndex]);
       }
     } else {
